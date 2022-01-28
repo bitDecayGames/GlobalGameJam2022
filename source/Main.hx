@@ -21,6 +21,14 @@ class Main extends Sprite {
 		var startingState:Class<FlxState> = SplashScreenState;
 		#if play
 		startingState = PlayState;
+		#elseif mike
+		startingState = PlayState;
+		#elseif logan
+		startingState = PlayState;
+		#elseif tristan
+		startingState = PlayState;
+		#elseif tanner
+		startingState = PlayState;
 		#else
 		if (Macros.isDefined("SKIP_SPLASH")) {
 			startingState = MainMenuState;
