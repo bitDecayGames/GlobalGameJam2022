@@ -1,5 +1,6 @@
 package states;
 
+import entities.GameData;
 import entities.Floor;
 import entities.Wall;
 import entities.physicsgroups.PhysicsCollisions;
@@ -22,14 +23,17 @@ using echo.FlxEcho;
 
 class PlayState extends FlxTransitionableState {
 	var player:FlxSprite;
-
+	var gameData:GameData;
 	var world:World;
 
 	public static inline var gravity = 98;
 
 	override public function create() {
 		super.create();
+		bgColor = FlxColor.GRAY;
 		Lifecycle.startup.dispatch();
+
+		gameData = new GameData();
 
 		// Initialize  FlxEcho
 		FlxEcho.init({width: FlxG.width, height: FlxG.height, gravity_y: PlayState.gravity});
@@ -50,7 +54,7 @@ class PlayState extends FlxTransitionableState {
 		var player2 = new Player(FlxG.width - 100, floor.y - 100, 1, physics.bullets);
 		add(player2);
 
-		openSubState(new PlayOverlay());
+		openSubState(new PlayOverlay(gameData));
 	}
 
 	override public function update(elapsed:Float) {
