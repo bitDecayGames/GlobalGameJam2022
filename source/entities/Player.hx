@@ -5,14 +5,30 @@ import input.InputCalcuator;
 import flixel.util.FlxColor;
 import flixel.FlxSprite;
 
+using echo.FlxEcho;
+
 class Player extends FlxSprite {
 	var speed:Float = 30;
 	var playerNum = 0;
 
-	public function new() {
-		super();
-		makeGraphic(20, 20, FlxColor.WHITE);
+	var wid = 50;
+	var hig = 100;
+
+	public function new(x:Float, y:Float) {
+		super(x, y);
+		makeGraphic(wid, hig, FlxColor.WHITE);
 		color = FlxColor.BLUE;
+
+		this.add_body({
+			mass: 0,
+			x: x,
+			y: y,
+			shape: {
+				type: RECT,
+				width: wid,
+				height: hig,
+			}
+		});
 	}
 
 	override public function update(delta:Float) {

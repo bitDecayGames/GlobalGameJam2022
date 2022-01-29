@@ -35,6 +35,9 @@ class PlayState extends FlxTransitionableState {
 
 		var object = new Bullet(50, 50);
 		add(object);
+
+		var player = new Player(20, FlxG.height - 100);
+		add(player);
 	}
 
 	override public function update(elapsed:Float) {
