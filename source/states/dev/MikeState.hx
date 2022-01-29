@@ -1,5 +1,6 @@
 package states.dev;
 
+import entities.AngleIndicator;
 import echo.FlxEcho;
 import entities.PowerMeter;
 import flixel.math.FlxRandom;
@@ -14,6 +15,7 @@ using extensions.FlxStateExt;
 
 class MikeState extends FlxTransitionableState {
 	private var power:PowerMeter;
+	private var angleInd:AngleIndicator;
 
 	override public function create() {
 		super.create();
@@ -28,6 +30,9 @@ class MikeState extends FlxTransitionableState {
 
 		power = new PowerMeter(200, 200);
 		add(power);
+
+		angleInd = new AngleIndicator(200, 100, 50);
+		add(angleInd);
 	}
 
 	override public function update(elapsed:Float) {
@@ -37,8 +42,10 @@ class MikeState extends FlxTransitionableState {
 		}
 		if (SimpleController.pressed(Button.LEFT)) {
 			power.power -= 0.01;
+			angleInd.angle -= 1;
 		} else if (SimpleController.pressed(Button.RIGHT)) {
 			power.power += 0.01;
+			angleInd.angle += 1;
 		} else if (SimpleController.pressed(Button.DOWN)) {
 			power.fluctuate(elapsed * 2.0);
 		}
