@@ -26,7 +26,7 @@ class Wall extends FlxTypedSpriteGroup<WallBlock> {
 			trace('sorted holes: ${_holes}');
 			var i:Int = 0;
 			while (i < height) {
-				var startY = i * WallBlock.WALL_HEIGHT;
+				var startY = FlxG.height - i * WallBlock.WALL_HEIGHT;
 				var segmentHeight = _holes.pop() - i;
 				i = i + segmentHeight + 1;
 
@@ -38,7 +38,7 @@ class Wall extends FlxTypedSpriteGroup<WallBlock> {
 
 				// update our next i to be height + 1 for our next wall segment
 
-				var gfx = new WallBlock(x, startY, segmentHeight);
+				var gfx = new WallBlock(x, startY - segmentHeight * WallBlock.WALL_HEIGHT, segmentHeight);
 				add(gfx);
 			}
 		}

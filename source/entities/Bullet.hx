@@ -10,6 +10,8 @@ using echo.FlxEcho;
 
 class Bullet extends FlxSprite {
 	public var isLethal:Bool = false;
+    var maxBounces = 1;
+    var remainingBounces = 1;
 
 	public function new(x:Float, y:Float, vel:FlxPoint) {
 		super(x, y);
@@ -36,5 +38,9 @@ class Bullet extends FlxSprite {
 
     public function hit(terrain:FlxSprite, collisionData:Array<CollisionData>) {
         // override this to do cool stuff on a per-bullet type basis
+        remainingBounces--;
+        if (remainingBounces < 0) {
+            kill();
+        }
     }
 }

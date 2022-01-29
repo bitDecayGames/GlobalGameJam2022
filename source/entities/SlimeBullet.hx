@@ -22,5 +22,7 @@ class SlimeBullet extends Bullet {
         var localY:Int = Std.int(this.y - terrain.y - 5);
         trace('stamping at local: (${localX}, ${localY}), angle: ${slimeStamp.angle}');
         terrain.stamp(slimeStamp, localX, localY);
+
+        super.hit(terrain, collisionData);
     }
 }
