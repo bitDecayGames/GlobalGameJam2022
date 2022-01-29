@@ -83,6 +83,16 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 		} else if (SimpleController.pressed(Button.DOWN, playerNum)) {
 			angleInd.angle -= CHANGE_ANGLE_SPEED;
 		}
+
+		var stick = SimpleController.getLeftStick(playerNum);
+		if (stick != null && stick.length > 0.2) {
+			stick.normalize();
+			// TODO: MW might want to add some lerp to this so that the angle isn't so jittery from your finger?
+
+			// the + 90 is here because stick.degrees is relative to the horizontal axis, but we need it relative to the vertical
+			// axis to match up with the fact that 0 degress equals up
+			angleInd.angle = stick.degrees + 90;
+		}
 	}
 
 	public function shoot() {
@@ -91,6 +101,8 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 		if (bulletPhysicsGroup != null) {
 			bulletPhysicsGroup.addBullet(bullet);
 		}
+
+		FlxG.camera.shake(powerMeter.power / 85, powerMeter.power / 3);
 	}
 
 	public function shot(hitBy:Bullet) {

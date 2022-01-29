@@ -6,21 +6,21 @@ import flixel.util.FlxColor;
 import echo.FlxEcho;
 
 class Floor extends FlxSprite {
-    public function new() {
-        var FLOOR_HEIGHT = 10;
-        super(0, FlxG.height - FLOOR_HEIGHT);
+	public function new() {
+		var FLOOR_HEIGHT = 10;
+		super(FlxG.width * .5, FlxG.height - FLOOR_HEIGHT);
 
-        makeGraphic(FlxG.width, FLOOR_HEIGHT, FlxColor.GREEN);
+		makeGraphic(FlxG.width, FLOOR_HEIGHT, FlxColor.GREEN);
 
-        FlxEcho.add_body(this, {
+		FlxEcho.add_body(this, {
 			x: x,
 			y: y,
 			shape: {
 				type: RECT,
 				width: FlxG.width,
-                height: FLOOR_HEIGHT,
+				height: FLOOR_HEIGHT,
 			},
-            mass: 0,
+			mass: 0,
 		});
-    }
+	}
 }
