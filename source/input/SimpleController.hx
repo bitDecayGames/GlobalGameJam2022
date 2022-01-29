@@ -59,10 +59,10 @@ class SimpleController {
 	}
 
 	static function pressed_pad(button:Button, player:Int):Bool {
-		var gamepads = FlxG.gamepads.getActiveGamepads();
-		if (gamepads.length < player || gamepads[player] == null)
-			return false;
-		return gamepads[player].anyPressed(pad_bindings[button]);
+		var pad = getGamepad(player);
+		if (pad == null)
+			return null;
+		return pad.anyPressed(pad_bindings[button]);
 	}
 
 	public static function just_pressed(button:Button, player:Int = 0):Bool {
@@ -116,12 +116,22 @@ class SimpleController {
 		
 		var gamepads = FlxG.gamepads.getActiveGamepads();
 		for (pad in gamepads) {
-			for (index => value in bound_pads) {
-				if (pad == value) {
-					continue;
+			var foundBinding = false;
+			for (index => bound in bound_pads) {
+				if (pad.id == bound.id) {
+					foundBinding = true;
+					break;
 				}
+			}
 
+			if(!foundBinding){
+				trace('Binding not found for pad with id ${pad.id}. Binding to player ${player}');
 				bound_pads.set(player, pad);
+
+
+				trace("Printing bound pads: ");
+				trace(bound_pads);
+
 				break;
 			}
 		}
