@@ -30,9 +30,7 @@ class Wall extends FlxTypedSpriteGroup<WallBlock> {
 					}
 				}
 				if (!isHole) {
-					var block = new WallBlock();
-					block.x = x;
-					block.y = y + i * WallBlock.WALL_HEIGHT;
+					var block = new WallBlock(x, y + i * WallBlock.WALL_HEIGHT);
 					add(block);
 				}
 			}

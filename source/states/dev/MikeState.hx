@@ -1,5 +1,6 @@
 package states.dev;
 
+import echo.FlxEcho;
 import entities.PowerMeter;
 import flixel.math.FlxRandom;
 import haxefmod.flixel.FmodFlxUtilities;
@@ -16,6 +17,10 @@ class MikeState extends FlxTransitionableState {
 
 	override public function create() {
 		super.create();
+
+		// Initialize  FlxEcho
+		FlxEcho.init({width: FlxG.width, height: FlxG.height, gravity_y: PlayState.gravity});
+
 		FlxG.camera.pixelPerfectRender = true;
 		var rnd = new FlxRandom();
 		var wall = new Wall(100, 0).buildWallBlocks(10, rnd.int(1, 3));
@@ -35,7 +40,7 @@ class MikeState extends FlxTransitionableState {
 		} else if (SimpleController.pressed(Button.RIGHT)) {
 			power.power += 0.01;
 		} else if (SimpleController.pressed(Button.DOWN)) {
-			power.fluctuate(elapsed);
+			power.fluctuate(elapsed * 2.0);
 		}
 	}
 
