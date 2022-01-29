@@ -14,6 +14,8 @@ import flixel.input.gamepad.FlxGamepadInputID;
  * Lovingly adapted from https://github.com/01010111/flixel-template
  */
 class SimpleController {
+	static var bound_pads = new Map<Int, FlxGamepad>();
+
 	static var key_bindings:Array<Map<Button, Array<FlxKey>>> = [
 		// PLAYER ONE
 		[
@@ -108,10 +110,27 @@ class SimpleController {
 	}
 
 	private static function getGamepad(player:Int):Null<FlxGamepad> {
+		if (bound_pads.exists(player)) {
+			return bound_pads.get(player);
+		}
+		
 		var gamepads = FlxG.gamepads.getActiveGamepads();
-		if (gamepads.length < player || gamepads[player] == null)
+		for (pad in gamepads) {
+			for (index => value in bound_pads) {
+				if (pad == value) {
+					continue;
+				}
+
+				bound_pads.set(player, pad);
+				break;
+			}
+		}
+
+		if (bound_pads.exists(player)) {
+			return bound_pads.get(player);
+		} else {
 			return null;
-		return gamepads[player];
+		}
 	}
 }
 

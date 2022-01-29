@@ -1,9 +1,11 @@
 package states;
 
+import entities.GameData;
 import entities.Floor;
 import entities.Wall;
 import entities.physicsgroups.PhysicsCollisions;
 import flixel.math.FlxPoint;
+import ui.PlayOverlay;
 import entities.Bullet;
 import flixel.util.FlxColor;
 import flixel.FlxObject;
@@ -21,14 +23,17 @@ using echo.FlxEcho;
 
 class PlayState extends FlxTransitionableState {
 	var player:FlxSprite;
-
+	var gameData:GameData;
 	var world:World;
 
 	public static inline var gravity = 98;
 
 	override public function create() {
 		super.create();
+		bgColor = FlxColor.GRAY;
 		Lifecycle.startup.dispatch();
+
+		gameData = new GameData();
 
 		// Initialize  FlxEcho
 		FlxEcho.init({width: FlxG.width, height: FlxG.height, gravity_y: PlayState.gravity});
@@ -49,7 +54,8 @@ class PlayState extends FlxTransitionableState {
 		var player2 = new Player(FlxG.width - 100, floor.y - 100, 1, physics.bullets);
 		add(player2);
 
-		// this is also required for collisions to work
+		openSubState(new PlayOverlay(gameData, ()->{trace('danceoff begin!');}));
+
 		physics.init([player1, player2], wall, floor);
 	}
 
