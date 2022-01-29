@@ -54,7 +54,9 @@ class PlayState extends FlxTransitionableState {
 		var player2 = new Player(FlxG.width - 100, floor.y - 100, 1, physics.bullets);
 		add(player2);
 
-		openSubState(new PlayOverlay(gameData));
+		openSubState(new PlayOverlay(gameData, ()->{trace('danceoff begin!');}));
+
+		physics.init([player1, player2], wall, floor);
 	}
 
 	override public function update(elapsed:Float) {

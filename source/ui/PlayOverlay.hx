@@ -13,10 +13,13 @@ class PlayOverlay extends FlxSubState {
 
     var startup:FlxSprite;
 
-    public function new(data:GameData) {
+    var callback:()->Void;
+
+    public function new(data:GameData, startCallback:()->Void) {
         super();
 
         this.data = data;
+        callback = startCallback;
 
         var test = new FlxSprite();
         test.makeGraphic(50, 50, FlxColor.LIME);
@@ -35,9 +38,15 @@ class PlayOverlay extends FlxSubState {
         startup.screenCenter(FlxAxes.XY);
         startup.x -= 100;
         startup.y -= 100;
-		startup.loadGraphic(AssetPaths.readysetgo__png, true, 50, 50);
-		startup.animation.add("countdown", [0, 1, 2], 2);
-        startup.animation.play("countdoown");
+		startup.loadGraphic(AssetPaths.readysetgo__png, true, 200, 200);
+		startup.animation.add("countdown", [0, 1, 2, 0], 1);
+        startup.animation.play("countdown");
+        startup.animation.callback = (name:String, frameNum:Int, frameIndex:Int) -> {
+            if (name == "countdown" && frameNum == 3) {
+                callback();
+                startup.kill();
+            }
+        };
 
         add(startup);
     }
@@ -45,6 +54,5 @@ class PlayOverlay extends FlxSubState {
     override function update(elapsed:Float) {
         super.update(elapsed);
         _parentState.update(elapsed);
-        startup.y +=  10 * elapsed;
     }
 }
