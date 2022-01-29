@@ -1,5 +1,6 @@
 package entities.physicsgroups;
 
+import flixel.FlxSprite;
 using echo.FlxEcho;
 
 class PhysicsCollisions {
@@ -22,7 +23,12 @@ class PhysicsCollisions {
 		terrain.addWall(wall);
 		terrain.addFloor(floor);
 
-		bullets.grp.listen(terrain.grp);
+		bullets.grp.listen(terrain.grp, {
+			enter: (bullet, terrain, c) -> {
+				var bullet = cast(bullet.get_object(), Bullet);
+				bullet.hit(cast(terrain.get_object(), FlxSprite), c);
+			}
+		});
 
 		bullets.grp.listen(this.players.grp, {
 			separate: false,

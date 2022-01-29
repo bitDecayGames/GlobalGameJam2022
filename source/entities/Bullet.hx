@@ -1,5 +1,7 @@
 package entities;
 
+import flixel.FlxObject;
+import echo.data.Data.CollisionData;
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.util.FlxColor;
@@ -31,4 +33,8 @@ class Bullet extends FlxSprite {
 		// remove echo physics body from the world here
 		this.get_body().active = false;
 	}
+
+    public function hit(terrain:FlxSprite, collisionData:Array<CollisionData>) {
+        // override this to do cool stuff on a per-bullet type basis
+    }
 }
