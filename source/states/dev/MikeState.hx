@@ -34,6 +34,8 @@ class MikeState extends FlxTransitionableState {
 			power.power -= 0.01;
 		} else if (SimpleController.pressed(Button.RIGHT)) {
 			power.power += 0.01;
+		} else if (SimpleController.pressed(Button.DOWN)) {
+			power.fluctuate(elapsed);
 		}
 	}
 
