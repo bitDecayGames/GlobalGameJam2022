@@ -7,7 +7,7 @@ import flixel.util.FlxColor;
 using echo.FlxEcho;
 
 class Bullet extends FlxSprite {
-	public var age:Float = 0.0;
+	public var isLethal:Bool = false;
 
 	public function new(x:Float, y:Float, vel:FlxPoint) {
 		super(x, y);
@@ -24,11 +24,6 @@ class Bullet extends FlxSprite {
 			velocity_x: vel.x,
 			velocity_y: vel.y
 		});
-	}
-
-	override function update(elapsed:Float) {
-		super.update(elapsed);
-		age += elapsed;
 	}
 
 	override function kill() {

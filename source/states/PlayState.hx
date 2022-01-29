@@ -1,5 +1,8 @@
 package states;
 
+import entities.Floor;
+import entities.Wall;
+import entities.physicsgroups.PhysicsCollisions;
 import flixel.math.FlxPoint;
 import entities.Bullet;
 import flixel.util.FlxColor;
@@ -27,19 +30,27 @@ class PlayState extends FlxTransitionableState {
 		super.create();
 		Lifecycle.startup.dispatch();
 
-		FlxG.camera.pixelPerfectRender = true;
-
 		// Initialize  FlxEcho
-		FlxEcho.init({width: FlxG.width, height: FlxG.height, gravity_y: gravity});
+		FlxEcho.init({width: FlxG.width, height: FlxG.height, gravity_y: PlayState.gravity});
 
-		// Draw the debug scene so we can see the Echo bodies
-		FlxEcho.draw_debug = true;
+		// this is required for collisions to work
+		var physics = new PhysicsCollisions();
 
-		var object = new Bullet(50, 50, FlxPoint.get(10, -10));
-		add(object);
+		FlxG.camera.pixelPerfectRender = true;
+		var wall = new Wall(FlxG.width * .5, 0).buildWallBlocks(10, 3);
+		add(wall);
 
-		var player = new Player(20, FlxG.height - 100, 0, null);
-		add(player);
+		var floor = new Floor();
+		add(floor);
+
+		var player1 = new Player(100, floor.y - 100, 0, physics.bullets);
+		add(player1);
+
+		var player2 = new Player(FlxG.width - 100, floor.y - 100, 1, physics.bullets);
+		add(player2);
+
+		// this is also required for collisions to work
+		physics.init([player1, player2], wall, floor);
 	}
 
 	override public function update(elapsed:Float) {

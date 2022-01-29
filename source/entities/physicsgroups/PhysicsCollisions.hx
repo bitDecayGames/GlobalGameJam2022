@@ -25,18 +25,21 @@ class PhysicsCollisions {
 		bullets.grp.listen(terrain.grp);
 
 		bullets.grp.listen(this.players.grp, {
-			condition: (bullet, player, _) -> {
-				// if bullet has not been alive for X seconds, don't collide with player
-				// (so you don't shoot your own foot off)
-				return cast(bullet.get_object(), Bullet).age > BULLET_LETHAL_AGE;
+			separate: false,
+			exit: (bullet, player) -> {
+				// bullets are only lethal once they are out of your flesh cannon
+				cast(bullet.get_object(), Bullet).isLethal = true;
 			},
-			enter: (b, p, c) -> {
-				// only hits here if the bullet is of age, no pedo-bullet-philia
-				// because of the previous condition func
-				var playerHit:Player = cast(p.get_object(), PlayerBodySprite).parent;
-				var bulletHit:Bullet = cast(b.get_object());
-				playerHit.shot(bulletHit);
+			enter: (bullet, player, c) -> {
+				var playerHit:Player = cast(player.get_object(), PlayerBodySprite).parent;
+				var bulletHit:Bullet = cast(bullet.get_object());
+				if (bulletHit.isLethal) {
+					playerHit.shot(bulletHit);
+				}
 			}
 		});
+
+		// terrant bullets
+		bullets.grp.listen(bullets.grp);
 	}
 }

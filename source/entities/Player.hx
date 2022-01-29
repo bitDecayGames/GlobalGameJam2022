@@ -21,6 +21,7 @@ using echo.FlxEcho;
 class Player extends FlxTypedSpriteGroup<FlxSprite> {
 	private static final CHANGE_ANGLE_SPEED:Float = 1.0;
 	private static final POWER_SCALE:Float = 300;
+	private static final MIN_SHOOT_POWER:Float = 75;
 
 	var speed:Float = 30;
 
@@ -85,7 +86,7 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 	}
 
 	public function shoot() {
-		var bullet = new Bullet(x, y, FlxVector.get(0, -1).rotateByDegrees(angleInd.angle).scale(powerMeter.power * POWER_SCALE));
+		var bullet = new Bullet(x, y, FlxVector.get(0, -1).rotateByDegrees(angleInd.angle).scale(MIN_SHOOT_POWER + powerMeter.power * POWER_SCALE));
 		FlxG.state.add(bullet);
 		if (bulletPhysicsGroup != null) {
 			bulletPhysicsGroup.addBullet(bullet);
