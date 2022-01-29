@@ -4,6 +4,7 @@ import entities.Floor;
 import entities.Wall;
 import entities.physicsgroups.PhysicsCollisions;
 import flixel.math.FlxPoint;
+import ui.PlayOverlay;
 import entities.Bullet;
 import flixel.util.FlxColor;
 import flixel.FlxObject;
@@ -49,8 +50,7 @@ class PlayState extends FlxTransitionableState {
 		var player2 = new Player(FlxG.width - 100, floor.y - 100, 1, physics.bullets);
 		add(player2);
 
-		// this is also required for collisions to work
-		physics.init([player1, player2], wall, floor);
+		openSubState(new PlayOverlay());
 	}
 
 	override public function update(elapsed:Float) {
