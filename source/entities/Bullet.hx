@@ -14,11 +14,12 @@ class Bullet extends FlxSprite {
         FlxEcho.add_body(this, {
 			x: x,
 			y: y,
+			elasticity: 0.95,
 			shape: {
 				type: CIRCLE,
 				radius: 5
 			},
-			velocity_x: 20,
+			velocity_x: 70,
 			velocity_y: -20
 		});
     }

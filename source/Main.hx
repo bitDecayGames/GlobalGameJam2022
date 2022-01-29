@@ -14,6 +14,7 @@ import flixel.util.FlxColor;
 import misc.FlxTextFactory;
 import openfl.display.Sprite;
 import states.PlayState;
+import states.TristanState;
 #if mike
 import states.dev.MikeState;
 #end
@@ -31,7 +32,7 @@ class Main extends Sprite {
 		#elseif logan
 		startingState = PlayState;
 		#elseif tristan
-		startingState = PlayState;
+		startingState = TristanState;
 		#elseif tanner
 		startingState = PlayState;
 		#else
