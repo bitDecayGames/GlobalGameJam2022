@@ -19,8 +19,6 @@ using extensions.FlxStateExt;
 using echo.FlxEcho;
 
 class TristanState extends FlxTransitionableState {
-	var player:FlxSprite;
-
 	var world:World;
 
 	var physicsObjects = new FlxGroup();
@@ -43,16 +41,25 @@ class TristanState extends FlxTransitionableState {
 		var rnd = new FlxRandom();
 		var wall = new Wall(100, 0).buildWallBlocks(10, rnd.int(1, 3));
 		var floor = new Floor();
+		var player = new Player(50, floor.y - 100 );
 		add(floor);
 		add(wall);
 		add(bullet);
+		add(player);
 		for (member in wall.members) {
 			member.add_to_group(physicsObjects);
 		}
 		floor.add_to_group(physicsObjects);
 
 		FlxEcho.listen(bullet, physicsObjects);
-
+		FlxEcho.listen(player, physicsObjects);
+		player.listen(bullet, {
+			stay: (p, b, c) -> {
+				var playerHit:Player = cast(p.get_object());
+				var bulletHit:Bullet = cast(b.get_object());
+				playerHit.shot(bulletHit, this);
+			}
+		});
 	}
 
 	override public function update(elapsed:Float) {

@@ -1,5 +1,6 @@
 package entities;
 
+import flixel.FlxState;
 import input.SimpleController;
 import input.InputCalcuator;
 import flixel.util.FlxColor;
@@ -20,7 +21,7 @@ class Player extends FlxSprite {
 		color = FlxColor.BLUE;
 
 		this.add_body({
-			mass: 0,
+			// mass: 0,
 			x: x,
 			y: y,
 			shape: {
@@ -44,5 +45,13 @@ class Player extends FlxSprite {
 		if (SimpleController.just_pressed(Button.A, playerNum)) {
 			color = color ^ 0xFFFFFF;
 		}
+	}
+
+	public function shot(hitBy:FlxSprite, state:FlxState) {
+		// for now just delete the player and whatever it was hit by
+		// later we can add fancy animations, screams of terror, 
+		// explosions, etc.
+		state.remove(hitBy);
+		state.remove(this);
 	}
 }
