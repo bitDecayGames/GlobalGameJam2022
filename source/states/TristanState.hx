@@ -3,6 +3,7 @@ package states;
 import flixel.group.FlxGroup;
 import flixel.math.FlxRandom;
 import entities.Bullet;
+import entities.Floor;
 import flixel.util.FlxColor;
 import flixel.FlxObject;
 import echo.Body;
@@ -41,11 +42,14 @@ class TristanState extends FlxTransitionableState {
 
 		var rnd = new FlxRandom();
 		var wall = new Wall(100, 0).buildWallBlocks(10, rnd.int(1, 3));
+		var floor = new Floor();
+		add(floor);
 		add(wall);
 		add(bullet);
 		for (member in wall.members) {
 			member.add_to_group(physicsObjects);
 		}
+		floor.add_to_group(physicsObjects);
 
 		FlxEcho.listen(bullet, physicsObjects);
 
