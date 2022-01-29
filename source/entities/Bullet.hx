@@ -9,7 +9,7 @@ import flixel.util.FlxColor;
 using echo.FlxEcho;
 
 class Bullet extends FlxSprite {
-	public var isLethal:Bool = false;
+	public var isLethal:Bool = true;
     var maxBounces = 1;
     var remainingBounces = 1;
 
