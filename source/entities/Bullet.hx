@@ -1,9 +1,10 @@
 package entities;
 
-import echo.FlxEcho;
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.util.FlxColor;
+
+using echo.FlxEcho;
 
 class Bullet extends FlxSprite {
 	public var age:Float = 0.0;
@@ -12,7 +13,7 @@ class Bullet extends FlxSprite {
 		super(x, y);
 		makeGraphic(10, 10, FlxColor.RED);
 
-		FlxEcho.add_body(this, {
+		this.add_body({
 			x: x + 5,
 			y: y + 5,
 			elasticity: 0.95,
@@ -28,5 +29,11 @@ class Bullet extends FlxSprite {
 	override function update(elapsed:Float) {
 		super.update(elapsed);
 		age += elapsed;
+	}
+
+	override function kill() {
+		super.kill();
+		// remove echo physics body from the world here
+		this.get_body().active = false;
 	}
 }

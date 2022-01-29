@@ -23,7 +23,8 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 	private static final POWER_SCALE:Float = 300;
 
 	var speed:Float = 30;
-	var playerNum:Int;
+
+	public var playerNum:Int;
 
 	var wid = 50;
 	var hig = 100;
@@ -35,10 +36,10 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 
 	private var bulletPhysicsGroup:Null<BulletsPhysicsGroup>;
 
-	public function new(x:Float, y:Float, playerNum:Int, ?bulletPhysicsGroup:BulletsPhysicsGroup) {
+	public function new(x:Float, y:Float, playerNum:Int, bulletPhysicsGroup:Null<BulletsPhysicsGroup>) {
 		super(x, y);
 		this.bulletPhysicsGroup = bulletPhysicsGroup;
-		body = new FlxSprite();
+		body = new PlayerBodySprite(this);
 		body.makeGraphic(wid, hig, FlxColor.GREEN);
 		add(body);
 		this.playerNum = playerNum;
@@ -91,11 +92,17 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 		}
 	}
 
-	public function shot(hitBy:FlxSprite, state:FlxState) {
+	public function shot(hitBy:Bullet) {
 		// for now just delete the player and whatever it was hit by
 		// later we can add fancy animations, screams of terror,
 		// explosions, etc.
-		state.remove(hitBy);
-		state.remove(this);
+		hitBy.kill();
+		this.kill();
+	}
+
+	override function kill() {
+		super.kill();
+		// remove echo physics body from the world here
+		body.get_body().active = false;
 	}
 }
