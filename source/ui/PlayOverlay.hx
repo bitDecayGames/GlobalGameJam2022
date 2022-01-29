@@ -44,6 +44,16 @@ class PlayOverlay extends FlxSubState {
 		startup.animation.add("countdown", [0, 1, 2, 0], 1);
         startup.animation.play("countdown");
         startup.animation.callback = (name:String, frameNum:Int, frameIndex:Int) -> {
+            trace('name: ${name}, frame number: ${frameNum}, frame index: ${frameIndex}');
+            if (name == "countdown" && frameNum == 0) {
+                FmodManager.PlaySoundOneShot(FmodSFX.AnnouncerReady);
+            }
+            if (name == "countdown" && frameNum == 1) {
+                FmodManager.PlaySoundOneShot(FmodSFX.AnnouncerSet);
+            }
+            if (name == "countdown" && frameNum == 2) {
+                FmodManager.PlaySoundOneShot(FmodSFX.AnnouncerGo);
+            }
             if (name == "countdown" && frameNum == 3) {
                 callback();
                 gameStarted = true;

@@ -17,6 +17,9 @@ class SlimeBullet extends Bullet {
     }
 
     override function hit(terrain:FlxSprite, collisionData:Array<CollisionData>) {
+
+        FmodManager.PlaySoundOneShot(FmodSFX.BallTerrain);
+
         slimeStamp.angle = FlxG.random.int(0, 359);
         var localX:Int = Std.int(this.x - terrain.x - 5);
         var localY:Int = Std.int(this.y - terrain.y - 5);
