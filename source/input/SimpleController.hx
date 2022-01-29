@@ -1,5 +1,8 @@
 package input;
 
+import flixel.input.gamepad.FlxGamepad;
+import flixel.math.FlxPoint;
+import flixel.math.FlxVector;
 import flixel.FlxG;
 import flixel.input.keyboard.FlxKey;
 import flixel.input.gamepad.FlxGamepadInputID;
@@ -69,10 +72,10 @@ class SimpleController {
 	}
 
 	static function just_pressed_pad(button:Button, player:Int):Bool {
-		var gamepads = FlxG.gamepads.getActiveGamepads();
-		if (gamepads.length < player || gamepads[player] == null)
+		var pad = getGamepad(player);
+		if (pad == null)
 			return false;
-		return gamepads[player].anyJustPressed(pad_bindings[button]);
+		return pad.anyJustPressed(pad_bindings[button]);
 	}
 
 	public static function just_released(button:Button, player:Int = 0):Bool {
@@ -84,10 +87,31 @@ class SimpleController {
 	}
 
 	static function just_released_pad(button:Button, player:Int):Bool {
+		var pad = getGamepad(player);
+		if (pad == null)
+			return false;
+		return pad.anyJustReleased(pad_bindings[button]);
+	}
+
+	public static function getLeftStick(player:Int):Null<FlxVector> {
+		var pad = getGamepad(player);
+		if (pad == null)
+			return null;
+		return FlxVector.get(pad.getXAxis(LEFT_ANALOG_STICK), pad.getYAxis(LEFT_ANALOG_STICK));
+	}
+
+	public static function getRightStick(player:Int):Null<FlxVector> {
+		var pad = getGamepad(player);
+		if (pad == null)
+			return null;
+		return FlxVector.get(pad.getXAxis(RIGHT_ANALOG_STICK), pad.getYAxis(RIGHT_ANALOG_STICK));
+	}
+
+	private static function getGamepad(player:Int):Null<FlxGamepad> {
 		var gamepads = FlxG.gamepads.getActiveGamepads();
 		if (gamepads.length < player || gamepads[player] == null)
-			return false;
-		return gamepads[player].anyJustReleased(pad_bindings[button]);
+			return null;
+		return gamepads[player];
 	}
 }
 

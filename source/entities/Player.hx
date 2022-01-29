@@ -83,6 +83,13 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 		} else if (SimpleController.pressed(Button.DOWN, playerNum)) {
 			angleInd.angle -= CHANGE_ANGLE_SPEED;
 		}
+
+		var stick = SimpleController.getLeftStick(playerNum);
+		if (stick != null && stick.length > 0.2) {
+			stick.normalize();
+			// TODO: MW might want to add some lerp to this so that the angle isn't so jittery from your finger?
+			angleInd.angle = stick.degrees + 90;
+		}
 	}
 
 	public function shoot() {
