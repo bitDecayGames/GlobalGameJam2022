@@ -10,6 +10,10 @@ bitlytics git https://github.com/bitDecayGames/Bitlytics.git
 flixelutils git https://github.com/bitDecayGames/flixel-utils.git
 textpop git https://github.com/bitDecayGames/text-pop.git
 
+# physics
+echo git https://github.com/AustinEast/echo.git
+echo-flixel git https://github.com/AustinEast/echo-flixel.git
+
 # misc deps
 dialog-manager git https://github.com/Tanz0rz/haxe-dialog-manager.git
 haxefmod git https://github.com/Tanz0rz/haxe-fmod.git

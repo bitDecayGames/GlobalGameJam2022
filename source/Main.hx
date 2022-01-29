@@ -1,6 +1,7 @@
 package;
 
 import states.SplashScreenState;
+import states.PlayState;
 import misc.Macros;
 import states.MainMenuState;
 import flixel.FlxState;
@@ -12,6 +13,10 @@ import flixel.addons.transition.TransitionData;
 import flixel.util.FlxColor;
 import misc.FlxTextFactory;
 import openfl.display.Sprite;
+import states.PlayState;
+#if mike
+import states.dev.MikeState;
+#end
 
 class Main extends Sprite {
 	public function new() {
@@ -22,7 +27,7 @@ class Main extends Sprite {
 		#if play
 		startingState = PlayState;
 		#elseif mike
-		startingState = PlayState;
+		startingState = MikeState;
 		#elseif logan
 		startingState = PlayState;
 		#elseif tristan
