@@ -15,6 +15,7 @@ import misc.FlxTextFactory;
 import openfl.display.Sprite;
 import states.PlayState;
 import states.TristanState;
+import states.ParticlePlayState;
 #if mike
 import states.dev.MikeState;
 #end
@@ -34,8 +35,9 @@ class Main extends Sprite {
 		#elseif tristan
 		startingState = TristanState;
 		#elseif tanner
-		startingState = PlayState;
+		startingState = ParticlePlayState;
 		#else
+
 		if (Macros.isDefined("SKIP_SPLASH")) {
 			startingState = MainMenuState;
 		}
