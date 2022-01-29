@@ -101,6 +101,8 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 		if (bulletPhysicsGroup != null) {
 			bulletPhysicsGroup.addBullet(bullet);
 		}
+
+		FlxG.camera.shake(powerMeter.power / 85, powerMeter.power / 3);
 	}
 
 	public function shot(hitBy:Bullet) {
