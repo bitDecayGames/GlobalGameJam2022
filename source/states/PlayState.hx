@@ -55,6 +55,10 @@ class PlayState extends FlxTransitionableState {
 
 	override public function update(elapsed:Float) {
 		super.update(elapsed);
+
+		if (FlxG.keys.justPressed.SPACE){
+			FlxG.resetGame();
+		}
 	}
 
 	override public function onFocusLost() {

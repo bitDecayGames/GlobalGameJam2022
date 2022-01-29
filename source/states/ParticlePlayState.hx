@@ -119,7 +119,6 @@ class ParticlePlayState extends FlxTransitionableState
 	function arrowHitsGround():Void {
 		_emitter.clear();
 		_emitter.makeParticles(2, 2, FlxColor.BROWN, 200);
-		// _emitter.lifespan.set(0.1, 1);
 		_emitter.launchMode = FlxEmitterMode.SQUARE;
 		_emitter.velocity.set(-10,-10,10,10,-10,-10,10,10);
 		_emitter.alpha.set(0.9, 1, 0, 0);
