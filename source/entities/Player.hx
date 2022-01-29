@@ -111,6 +111,9 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 	}
 
 	public function shoot() {
+
+		FmodManager.PlaySoundOneShot(FmodSFX.PlayerShoot);
+
 		// need the 90 degree diff because of differences in "up" from Flx to Echo.
 		var tipOfGun = FlxPointExt.pointOnCircumference(FlxPoint.get(x, y), angleInd.angle - 90, ANGLE_RADIUS);
 		var bullet = new SlimeBullet(tipOfGun.x, tipOfGun.y,
@@ -127,6 +130,7 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 		// for now just delete the player and whatever it was hit by
 		// later we can add fancy animations, screams of terror,
 		// explosions, etc.
+		FmodManager.PlaySoundOneShot(FmodSFX.PlayerDie);
 		hitBy.kill();
 		this.kill();
 	}
