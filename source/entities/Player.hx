@@ -1,5 +1,8 @@
 package entities;
 
+import flixel.system.FlxAssets;
+import lime.utils.Assets;
+import shaders.ColorShifterShader;
 import flixel.FlxState;
 import input.SimpleController;
 import input.InputCalcuator;
@@ -41,7 +44,7 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 		super(x, y);
 		this.bulletPhysicsGroup = bulletPhysicsGroup;
 		body = new PlayerBodySprite(this);
-		body.makeGraphic(wid, hig, FlxColor.GREEN);
+		body.loadGraphic(AssetPaths.harry_potter__png);
 		add(body);
 		this.playerNum = playerNum;
 
@@ -63,6 +66,16 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 				height: hig,
 			}
 		});
+
+		// set up color shifting shader based on playerNum
+		var shader = new ColorShifterShader([
+			5 => FlxColor.PURPLE,
+			8 => FlxColor.PURPLE,
+			44 => FlxColor.MAGENTA,
+			33 => FlxColor.PINK,
+			100 => FlxColor.PURPLE,
+		]);
+		body.shader = shader;
 	}
 
 	override public function update(delta:Float) {
