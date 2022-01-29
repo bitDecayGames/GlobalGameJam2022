@@ -88,6 +88,9 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 		if (stick != null && stick.length > 0.2) {
 			stick.normalize();
 			// TODO: MW might want to add some lerp to this so that the angle isn't so jittery from your finger?
+
+			// the + 90 is here because stick.degrees is relative to the horizontal axis, but we need it relative to the vertical
+			// axis to match up with the fact that 0 degress equals up
 			angleInd.angle = stick.degrees + 90;
 		}
 	}
