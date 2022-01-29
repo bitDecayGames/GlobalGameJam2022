@@ -25,6 +25,7 @@ class PlayState extends FlxTransitionableState {
 	var player:FlxSprite;
 	var gameData:GameData;
 	var world:World;
+	var go:Bool = false;
 
 	public static inline var gravity = 98;
 
@@ -54,13 +55,17 @@ class PlayState extends FlxTransitionableState {
 		var player2 = new Player(FlxG.width - 100, floor.y - 100, 1, physics.bullets);
 		add(player2);
 
-		openSubState(new PlayOverlay(gameData, ()->{trace('danceoff begin!');}));
+		openSubState(new PlayOverlay(gameData, ()->{
+			go = true;
+		}));
 
 		physics.init([player1, player2], wall, floor);
 	}
 
 	override public function update(elapsed:Float) {
-		super.update(elapsed);
+		if (go) {
+			super.update(elapsed);
+		}
 
 		if (FlxG.keys.justPressed.SPACE){
 			FlxG.resetGame();
