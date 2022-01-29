@@ -1,5 +1,6 @@
 package entities;
 
+import extensions.FlxPointExt;
 import flixel.system.FlxAssets;
 import lime.utils.Assets;
 import shaders.ColorShifterShader;
@@ -25,6 +26,7 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 	private static final CHANGE_ANGLE_SPEED:Float = 1.0;
 	private static final POWER_SCALE:Float = 300;
 	private static final MIN_SHOOT_POWER:Float = 75;
+	private static final ANGLE_RADIUS:Float = 70;
 
 	var speed:Float = 30;
 
@@ -44,11 +46,11 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 		super(x, y);
 		this.bulletPhysicsGroup = bulletPhysicsGroup;
 		body = new PlayerBodySprite(this);
-		body.loadGraphic(AssetPaths.harry_potter__png);
+		body.makeGraphic(wid, hig, FlxColor.MAGENTA);
 		add(body);
 		this.playerNum = playerNum;
 
-		angleInd = new AngleIndicator(0, -70, 70);
+		angleInd = new AngleIndicator(0, -ANGLE_RADIUS, ANGLE_RADIUS);
 		add(angleInd);
 
 		// MW notice the .25 instead of .5 here... no fucking idea...
@@ -109,7 +111,10 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 	}
 
 	public function shoot() {
-		var bullet = new SlimeBullet(x, y, FlxVector.get(0, -1).rotateByDegrees(angleInd.angle).scale(MIN_SHOOT_POWER + powerMeter.power * POWER_SCALE));
+		// need the 90 degree diff because of differences in "up" from Flx to Echo.
+		var tipOfGun = FlxPointExt.pointOnCircumference(FlxPoint.get(x, y), angleInd.angle - 90, ANGLE_RADIUS);
+		var bullet = new SlimeBullet(tipOfGun.x, tipOfGun.y,
+			FlxVector.get(0, -1).rotateByDegrees(angleInd.angle).scale(MIN_SHOOT_POWER + powerMeter.power * POWER_SCALE));
 		FlxG.state.add(bullet);
 		if (bulletPhysicsGroup != null) {
 			bulletPhysicsGroup.addBullet(bullet);
