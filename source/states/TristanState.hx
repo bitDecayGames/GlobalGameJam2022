@@ -1,27 +1,26 @@
 package states;
 
-import flixel.group.FlxGroup;
-import flixel.math.FlxRandom;
-import entities.Bullet;
-import entities.Floor;
-import flixel.util.FlxColor;
-import flixel.FlxObject;
-import echo.Body;
-import echo.Echo;
-import flixel.addons.transition.FlxTransitionableState;
-import signals.Lifecycle;
-import entities.Player;
-import flixel.FlxSprite;
-import flixel.FlxG;
 import echo.World;
+import entities.Bullet;
+import entities.Player;
+import entities.Floor;
 import entities.Wall;
-using extensions.FlxStateExt;
+import flixel.FlxG;
+import flixel.FlxSprite;
+import flixel.addons.transition.FlxTransitionableState;
+import flixel.group.FlxGroup;
+import flixel.math.FlxPoint;
+import flixel.math.FlxRandom;
+import signals.Lifecycle;
+
 using echo.FlxEcho;
+using extensions.FlxStateExt;
 
 class TristanState extends FlxTransitionableState {
 	var world:World;
 
 	var physicsObjects = new FlxGroup();
+
 	public static inline var gravity = 98;
 
 	override public function create() {
@@ -36,12 +35,12 @@ class TristanState extends FlxTransitionableState {
 		// Draw the debug scene so we can see the Echo bodies
 		FlxEcho.draw_debug = true;
 
-		var bullet = new Bullet(50, 50);
+		var bullet = new Bullet(50, 50, FlxPoint.get(20, -10));
 
 		var rnd = new FlxRandom();
 		var wall = new Wall(100, 0).buildWallBlocks(10, rnd.int(1, 3));
 		var floor = new Floor();
-		var player = new Player(50, floor.y - 100 );
+		var player = new Player(50, floor.y - 100, 0);
 		add(floor);
 		add(wall);
 		add(bullet);

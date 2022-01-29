@@ -1,5 +1,6 @@
 package states;
 
+import flixel.math.FlxPoint;
 import entities.Bullet;
 import flixel.util.FlxColor;
 import flixel.FlxObject;
@@ -19,6 +20,7 @@ class PlayState extends FlxTransitionableState {
 	var player:FlxSprite;
 
 	var world:World;
+
 	public static inline var gravity = 98;
 
 	override public function create() {
@@ -33,10 +35,10 @@ class PlayState extends FlxTransitionableState {
 		// Draw the debug scene so we can see the Echo bodies
 		FlxEcho.draw_debug = true;
 
-		var object = new Bullet(50, 50);
+		var object = new Bullet(50, 50, FlxPoint.get(10, -10));
 		add(object);
 
-		var player = new Player(20, FlxG.height - 100);
+		var player = new Player(20, FlxG.height - 100, 0);
 		add(player);
 	}
 
