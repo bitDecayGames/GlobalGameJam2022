@@ -1,5 +1,6 @@
 package states;
 
+import helpers.PlayerColors;
 import js.html.Console;
 import flixel.addons.ui.interfaces.IFlxUIWidget;
 import states.transitions.Trans;
@@ -36,12 +37,14 @@ class MainMenuState extends FlxUIState {
 
 		super.create();
 
+		PlayerColors.shuffle();
+
 		if (_makeCursor) {
 			cursor.loadGraphic(AssetPaths.pointer__png, true, 32, 32);
 			cursor.animation.add("pointing", [0, 1], 3);
 			cursor.animation.play("pointing");
 			cursor.callback = function cursorCallback(name:String, widget:IFlxUIWidget) {
-				if(name == "cursor_jump"){
+				if (name == "cursor_jump") {
 					FmodManager.PlaySoundOneShot(FmodSFX.MenuHover);
 				}
 			}
@@ -74,22 +77,21 @@ class MainMenuState extends FlxUIState {
 	}
 
 	override public function getEvent(name:String, sender:Dynamic, data:Dynamic, ?params:Array<Dynamic>):Void {
-
 		switch name {
 			case FlxUITypedButton.CLICK_EVENT:
 				var button_action:String = params[0];
 				trace('Action: "${button_action}"');
-	
+
 				if (button_action == "play") {
 					FmodManager.PlaySoundOneShot(FmodSFX.MenuSelect);
 					clickPlay();
 				}
-	
+
 				if (button_action == "credits") {
 					FmodManager.PlaySoundOneShot(FmodSFX.MenuSelect);
 					clickCredits();
 				}
-	
+
 				#if windows
 				if (button_action == "exit") {
 					clickExit();
@@ -98,15 +100,15 @@ class MainMenuState extends FlxUIState {
 			case FlxUITypedButton.OVER_EVENT:
 				var button_action:String = params[0];
 				trace('Action: "${button_action}"');
-	
+
 				if (button_action == "play") {
 					FmodManager.PlaySoundOneShot(FmodSFX.MenuHover);
 				}
-	
+
 				if (button_action == "credits") {
 					FmodManager.PlaySoundOneShot(FmodSFX.MenuHover);
 				}
-	
+
 				#if windows
 				if (button_action == "exit") {
 					FmodManager.PlaySoundOneShot(FmodSFX.MenuHover);
