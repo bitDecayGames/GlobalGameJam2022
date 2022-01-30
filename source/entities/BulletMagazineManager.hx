@@ -23,10 +23,13 @@ class BulletMagazineManager {
 		for (i in 0...magazines.length) {
 			count = magazines[i].count();
 			if (count > 0 || count < 0) {
+				trace('Still has count: ${count}');
 				return false;
 			}
 		}
+		trace("start reload");
 		for (i in 0...magazines.length) {
+			trace('reload ${i}');
 			magazines[i].reload();
 		}
 		return true;

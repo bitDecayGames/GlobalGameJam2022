@@ -77,6 +77,11 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 
 		angleInd = new AngleIndicator(0, -ANGLE_RADIUS, ANGLE_RADIUS);
 		add(angleInd);
+		if (playerNum == 0) {
+			angleInd.angle = 90;
+		} else if (playerNum == 1) {
+			angleInd.angle = -90;
+		}
 
 		// MW notice the .25 instead of .5 here... no fucking idea...
 		powerMeter = new PowerMeter(-PowerMeter.LENGTH * .25, -hig * .5);
@@ -160,7 +165,7 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 			trace('count: ${magazine.count()}');
 			FmodManager.PlaySoundOneShot(FmodSFX.PlayerShoot);
 
-			if (overlay != null){
+			if (overlay != null) {
 				overlay.subtractAmmoFromPlayer(this);
 				trace('subtracted ammo from overrlay');
 			} else {
