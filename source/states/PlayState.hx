@@ -53,7 +53,7 @@ class PlayState extends FlxTransitionableState {
 		var physics = new PhysicsCollisions();
 
 		FlxG.camera.pixelPerfectRender = true;
-		var wall = new Wall(FlxG.width * .5, 0).buildWallBlocks(10, 3, 5);
+		var wall = new Wall(FlxG.width * .5, 0).buildWallBlocks();
 		add(wall);
 
 		var floor = new Floor();
@@ -96,7 +96,7 @@ class PlayState extends FlxTransitionableState {
 			return;
 		}
 
-		roundEnding =  true;
+		roundEnding = true;
 		Timer.delay(() -> {
 			checkWinner();
 		}, 2000);
@@ -119,7 +119,7 @@ class PlayState extends FlxTransitionableState {
 
 	private function declareWinner(player:Player) {
 		camera.follow(player);
-		camera.targetOffset.set(-player.width/2, -player.height * 1.5);
+		camera.targetOffset.set(-player.width / 2, -player.height * 1.5);
 		overlay.declareWinner(player);
 	}
 

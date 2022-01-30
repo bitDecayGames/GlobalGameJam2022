@@ -38,7 +38,7 @@ class TristanState extends FlxTransitionableState {
 		var bullet = new Bullet(50, 50, FlxPoint.get(20, -10));
 
 		var rnd = new FlxRandom();
-		var wall = new Wall(100, 0).buildWallBlocks(10, rnd.int(1, 3));
+		var wall = new Wall(100, 0).buildWallBlocks();
 		var floor = new Floor();
 		var player = new Player(50, floor.y - 100, 0, null);
 		add(floor);

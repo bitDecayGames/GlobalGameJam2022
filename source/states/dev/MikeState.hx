@@ -27,7 +27,7 @@ class MikeState extends FlxTransitionableState {
 
 		// FlxG.camera.pixelPerfectRender = true;
 		var rnd = new FlxRandom();
-		var wall = new Wall(FlxG.width * .5, 0).buildWallBlocks(10, rnd.int(1, 3));
+		var wall = new Wall(FlxG.width * .5, 0).buildWallBlocks();
 		add(wall);
 
 		var floor = new Floor();
