@@ -1,5 +1,6 @@
 package;
 
+import helpers.PlayerColors;
 import states.SplashScreenState;
 import states.PlayState;
 import misc.Macros;
@@ -24,6 +25,8 @@ class Main extends Sprite {
 	public function new() {
 		super();
 		Configure.initAnalytics(false);
+
+		PlayerColors.shuffle();
 
 		var startingState:Class<FlxState> = SplashScreenState;
 		#if play

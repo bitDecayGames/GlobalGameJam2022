@@ -27,7 +27,7 @@ class ColorShifterShader extends FlxShader {
 	public function new(map:Map<Int, FlxColor>) {
 		super();
 		swapperTex = new FlxSprite();
-		swapperTex.makeGraphic(256, 1, FlxColor.TRANSPARENT);
+		swapperTex.makeGraphic(256, 1, FlxColor.TRANSPARENT, true);
 		swapperTex.pixels.lock();
 		for (index => value in map) {
 			swapperTex.pixels.setPixel32(index, 0, value);
