@@ -9,5 +9,8 @@ class AngleIndicator extends FlxSprite {
 		super(x, y);
 		makeGraphic(10, 10, FlxColor.WHITE);
 		origin.set(0, length);
+		offset.set(0, 0);
+		// visible false, but we still need this little object to align the bullet with the tip of the gun
+		visible = false;
 	}
 }

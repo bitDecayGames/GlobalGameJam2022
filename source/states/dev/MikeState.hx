@@ -25,7 +25,7 @@ class MikeState extends FlxTransitionableState {
 
 		var physics = new PhysicsCollisions();
 
-		FlxG.camera.pixelPerfectRender = true;
+		// FlxG.camera.pixelPerfectRender = true;
 		var rnd = new FlxRandom();
 		var wall = new Wall(FlxG.width * .5, 0).buildWallBlocks(10, rnd.int(1, 3));
 		add(wall);
@@ -40,6 +40,9 @@ class MikeState extends FlxTransitionableState {
 		add(player2);
 
 		physics.init([player1, player2], wall, floor);
+
+		player1.canShoot = true;
+		player2.canShoot = true;
 	}
 
 	override public function update(elapsed:Float) {
