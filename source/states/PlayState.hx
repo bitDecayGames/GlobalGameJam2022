@@ -72,6 +72,8 @@ class PlayState extends FlxTransitionableState {
 				player1.canShoot = true;
 				player2.canShoot = true;
 			});
+			player1.setOverlay(overlay);
+			player2.setOverlay(overlay);
 			openSubState(overlay);
 		}
 

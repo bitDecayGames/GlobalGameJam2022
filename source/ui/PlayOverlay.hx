@@ -13,7 +13,9 @@ class PlayOverlay extends FlxSubState {
 
     var startup:FlxSprite;
     var p1Score:FlxSprite;
+    var p1Ammo:Array<FlxSprite> = new Array<FlxSprite>();
     var p2Score:FlxSprite;
+    var p2Ammo:Array<FlxSprite> = new Array<FlxSprite>();
 
     var gameStarted:Bool = false;
 
@@ -24,6 +26,15 @@ class PlayOverlay extends FlxSubState {
 
         this.data = data;
         this.callback = callback;
+    }
+
+    function CreateBulletSprite(x:Int, y:Int):FlxSprite {
+        var bulletSprite = new FlxSprite();
+        bulletSprite.makeGraphic(20, 20, FlxColor.BROWN);
+        bulletSprite.x = x;
+        bulletSprite.y = y;
+        add(bulletSprite);
+        return bulletSprite;
     }
 
     override function create() {
@@ -41,6 +52,13 @@ class PlayOverlay extends FlxSubState {
         p2Score.x = FlxG.width - 70;
         p2Score.y = 20;
         add(p2Score);
+
+        for (i in 0...data.maxAmmo) {
+            var spriteSpacingX = 25;
+            var spriteDistanceFromTop = 20;
+            p1Ammo.push(CreateBulletSprite(50 + spriteSpacingX * (i+1), spriteDistanceFromTop));
+            p2Ammo.push(CreateBulletSprite((FlxG.width - 100) - (spriteSpacingX * i+1), spriteDistanceFromTop));
+        }
 
         startup = new FlxSprite();
 		startup.loadGraphic(AssetPaths.readysetgo__png, true, 200, 200);
@@ -70,6 +88,20 @@ class PlayOverlay extends FlxSubState {
         };
 
         add(startup);
+    }
+
+    public function subtractAmmoFromPlayer(player:Player){
+        if (player.playerNum == 0){
+            var ammoSprite = p1Ammo.pop();
+            if (ammoSprite != null){
+                ammoSprite.destroy();
+            }
+        } else if (player.playerNum == 1) {
+            var ammoSprite = p2Ammo.pop();
+            if (ammoSprite != null){
+                ammoSprite.destroy();
+            }
+        }
     }
 
     public function declareWinner(player:Player) {

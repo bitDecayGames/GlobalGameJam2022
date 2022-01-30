@@ -1,5 +1,6 @@
 package entities;
 
+import ui.PlayOverlay;
 import extensions.FlxPointExt;
 import flixel.system.FlxAssets;
 import lime.utils.Assets;
@@ -47,6 +48,7 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 	public var body:FlxSprite;
 
 	private var bulletPhysicsGroup:Null<BulletsPhysicsGroup>;
+	private var overlay:PlayOverlay;
 
 	public var magazine:BulletMagazine;
 
@@ -129,10 +131,21 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 		BulletMagazineManager.instance.attemptReload();
 	}
 
+	public function setOverlay(overlay:PlayOverlay) {
+		this.overlay = overlay;
+	}
+
 	public function shoot() {
 		if (magazine.shoot()) {
 			trace('count: ${magazine.count()}');
 			FmodManager.PlaySoundOneShot(FmodSFX.PlayerShoot);
+
+			if (overlay != null){
+				overlay.subtractAmmoFromPlayer(this);
+				trace('subtracted ammo from overrlay');
+			} else {
+				trace('overlay is null');
+			}
 
 			// need the 90 degree diff because of differences in "up" from Flx to Echo.
 			var tipOfGun = FlxPointExt.pointOnCircumference(FlxPoint.get(x, y), angleInd.angle - 90, ANGLE_RADIUS);
