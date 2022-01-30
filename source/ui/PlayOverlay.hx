@@ -126,7 +126,7 @@ class PlayOverlay extends FlxSubState {
             if (_parentState == null) {
                 return;
             }
-            
+
             startup.visible = true;
             startup.animation.play("countdown");
             FmodManager.PlaySoundOneShot(FmodSFX.AnnouncerReady);
@@ -158,27 +158,28 @@ class PlayOverlay extends FlxSubState {
     }
 
     private function announceRoundNumber() {
-        var roundNum = GameData.p1Points + GameData.p2Points + 1;
-        switch (roundNum) {
-            case 1:
-                FmodManager.PlaySoundOneShot(FmodSFX.AnnouncerRound1);
-            case 2:
-                FmodManager.PlaySoundOneShot(FmodSFX.AnnouncerRound2);
-            case 3:
-                FmodManager.PlaySoundOneShot(FmodSFX.AnnouncerRound3);
-            case 4:
-                FmodManager.PlaySoundOneShot(FmodSFX.AnnouncerRound4);
-            case 5:
-                FmodManager.PlaySoundOneShot(FmodSFX.AnnouncerRound5);
-            case 6:
-                FmodManager.PlaySoundOneShot(FmodSFX.AnnouncerRound6);
-            case 7:
-                FmodManager.PlaySoundOneShot(FmodSFX.AnnouncerRound7);
-            case 8:
-                FmodManager.PlaySoundOneShot(FmodSFX.AnnouncerRound8);
-            case 9:
-                FmodManager.PlaySoundOneShot(FmodSFX.AnnouncerRoundFinal);
-      }
+        // sadly no work
+    //     var roundNum = GameData.p1Points + GameData.p2Points + 1;
+    //     switch (roundNum) {
+    //         case 1:
+    //             FmodManager.PlaySoundOneShot(FmodSFX.AnnouncerRound1);
+    //         case 2:
+    //             FmodManager.PlaySoundOneShot(FmodSFX.AnnouncerRound2);
+    //         case 3:
+    //             FmodManager.PlaySoundOneShot(FmodSFX.AnnouncerRound3);
+    //         case 4:
+    //             FmodManager.PlaySoundOneShot(FmodSFX.AnnouncerRound4);
+    //         case 5:
+    //             FmodManager.PlaySoundOneShot(FmodSFX.AnnouncerRound5);
+    //         case 6:
+    //             FmodManager.PlaySoundOneShot(FmodSFX.AnnouncerRound6);
+    //         case 7:
+    //             FmodManager.PlaySoundOneShot(FmodSFX.AnnouncerRound7);
+    //         case 8:
+    //             FmodManager.PlaySoundOneShot(FmodSFX.AnnouncerRound8);
+    //         case 9:
+    //             FmodManager.PlaySoundOneShot(FmodSFX.AnnouncerRoundFinal);
+    //   }
     }
 
     public function subtractAmmoFromPlayer(player:Player){
