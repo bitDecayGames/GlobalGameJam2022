@@ -65,6 +65,8 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 
 	var isDead:Bool = false;
 
+	var slimeStamp:FlxSprite;
+
 	public static inline var IDLE = "idle";
 	public static inline var DYING = "dying";
 
@@ -116,11 +118,35 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 		});
 
 		// set up color shifting shader based on playerNum
-		var shader = new ColorShifterShader(PlayerColors.all[playerNum]);
+		var shader = new ColorShifterShader(PlayerColors.all[playerNum].player);
 		body.shader = shader;
 
 		magazine = new BulletMagazine(MAX_AMMO);
 		BulletMagazineManager.instance.add(magazine);
+
+		setupSlimeStamp();
+	}
+
+	private function setupSlimeStamp() {
+		var map = PlayerColors.all[playerNum].slime;
+		slimeStamp = new FlxSprite();
+		slimeStamp.loadGraphic(AssetPaths.slime1__png, false, 0, 0, true);
+		slimeStamp.scale.scale(SlimeBullet.SLIME_SCALE);
+		var pix = slimeStamp.pixels;
+		pix.lock();
+		for (x in 0...pix.width) {
+			for (y in 0...pix.height) {
+				var color:FlxColor = pix.getPixel32(x, y);
+				var swap = map.get(color.alpha);
+				if (swap != null) {
+					color.red = swap.red;
+					color.green = swap.green;
+					color.blue = swap.blue;
+					pix.setPixel32(x, y, color);
+				}
+			}
+		}
+		pix.unlock();
 	}
 
 	override public function update(delta:Float) {
@@ -192,7 +218,7 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 			// need the 90 degree diff because of differences in "up" from Flx to Echo.
 			var tipOfGun = FlxPointExt.pointOnCircumference(FlxPoint.get(x, y), angleInd.angle - 90, ANGLE_RADIUS);
 			var bullet = new SlimeBullet(tipOfGun.x - Bullet.BULLET_RADIUS * 3, tipOfGun.y - Bullet.BULLET_RADIUS * 3,
-				FlxVector.get(0, -1).rotateByDegrees(angleInd.angle).scale(MIN_SHOOT_POWER + powerMeter.power * POWER_SCALE));
+				FlxVector.get(0, -1).rotateByDegrees(angleInd.angle).scale(MIN_SHOOT_POWER + powerMeter.power * POWER_SCALE), playerNum, slimeStamp);
 			FlxG.state.add(bullet);
 			if (bulletPhysicsGroup != null) {
 				bulletPhysicsGroup.addBullet(bullet);
