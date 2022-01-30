@@ -58,6 +58,7 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 		powerMeter = new PowerMeter(-PowerMeter.LENGTH * .25, -hig * .5);
 		powerMeter.visible = false;
 		add(powerMeter);
+		powerMeter.saveAnchor();
 
 		body.add_body({
 			mass: 0,
@@ -88,7 +89,7 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 			powerMeter.power = 0;
 			powerMeter.visible = true;
 		} else if (SimpleController.pressed(Button.A, playerNum)) {
-			powerMeter.fluctuate(delta * 2);
+			powerMeter.buildUpMorePower(delta * 2);
 		} else if (SimpleController.just_released(Button.A, playerNum)) {
 			powerMeter.visible = false;
 			shoot();
