@@ -12,6 +12,7 @@ class Bullet extends FlxSprite {
 	public var isLethal:Bool = true;
     var maxBounces = 1;
     var remainingBounces = 1;
+    var radius = 5;
 
 	public function new(x:Float, y:Float, vel:FlxPoint) {
 		super(x, y);
@@ -23,7 +24,7 @@ class Bullet extends FlxSprite {
 			elasticity: 0.95,
 			shape: {
 				type: CIRCLE,
-				radius: 5
+				radius: radius
 			},
 			velocity_x: vel.x,
 			velocity_y: vel.y

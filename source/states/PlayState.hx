@@ -43,7 +43,7 @@ class PlayState extends FlxTransitionableState {
 		var physics = new PhysicsCollisions();
 
 		FlxG.camera.pixelPerfectRender = true;
-		var wall = new Wall(FlxG.width * .5, 0).buildWallBlocks(10, 3);
+		var wall = new Wall(FlxG.width * .5, 0).buildWallBlocks(10, 3, 3);
 		add(wall);
 
 		var floor = new Floor();

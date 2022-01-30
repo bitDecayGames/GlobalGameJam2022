@@ -11,13 +11,15 @@ class Wall extends FlxTypedSpriteGroup<WallBlock> {
 		super(x, y);
 	}
 
-	public function buildWallBlocks(height:Int, holes:Int):Wall {
+	// bias is a strength to move holes in the wall upward. The higher the number, the higher the holes will be
+	public function buildWallBlocks(height:Int, holes:Int, bias:Float = 0.0):Wall {
 		trace('constructing wall with height ${height} and ${holes} holes');
 		if (height > 0) {
 			var _holes = new Array<Int>();
 
 			for (i in 0...holes) {
-				_holes.push(FlxG.random.int(0, height - 1));
+				var upwardBias = Std.int(FlxG.random.float() * bias);
+				_holes.push(FlxG.random.int(0, height - 1) + upwardBias);
 			}
 			_holes.sort( (a:Int, b:Int) -> {
 				// sort these so the smallest elements are at the end so we can pop() them off nicely
