@@ -27,6 +27,7 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 	private static final POWER_SCALE:Float = 300;
 	private static final MIN_SHOOT_POWER:Float = 75;
 	private static final ANGLE_RADIUS:Float = 70;
+	public static final GROUND_ELEVATION:Float = 70;
 
 	var speed:Float = 30;
 
@@ -57,6 +58,7 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 		powerMeter = new PowerMeter(-PowerMeter.LENGTH * .25, -hig * .5);
 		powerMeter.visible = false;
 		add(powerMeter);
+		powerMeter.saveAnchor();
 
 		body.add_body({
 			mass: 0,
@@ -87,7 +89,7 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 			powerMeter.power = 0;
 			powerMeter.visible = true;
 		} else if (SimpleController.pressed(Button.A, playerNum)) {
-			powerMeter.fluctuate(delta * 2);
+			powerMeter.buildUpMorePower(delta * 2);
 		} else if (SimpleController.just_released(Button.A, playerNum)) {
 			powerMeter.visible = false;
 			shoot();
@@ -111,7 +113,6 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 	}
 
 	public function shoot() {
-
 		FmodManager.PlaySoundOneShot(FmodSFX.PlayerShoot);
 
 		// need the 90 degree diff because of differences in "up" from Flx to Echo.

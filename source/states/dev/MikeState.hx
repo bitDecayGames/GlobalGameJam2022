@@ -33,10 +33,10 @@ class MikeState extends FlxTransitionableState {
 		var floor = new Floor();
 		add(floor);
 
-		var player1 = new Player(100, floor.y - 100, 0, physics.bullets);
+		var player1 = new Player(100, floor.y - Player.GROUND_ELEVATION, 0, physics.bullets);
 		add(player1);
 
-		var player2 = new Player(FlxG.width - 100, floor.y - 100, 1, physics.bullets);
+		var player2 = new Player(FlxG.width - 100, floor.y - Player.GROUND_ELEVATION, 1, physics.bullets);
 		add(player2);
 
 		physics.init([player1, player2], wall, floor);

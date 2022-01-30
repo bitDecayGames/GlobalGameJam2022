@@ -1,5 +1,8 @@
 package entities;
 
+import flixel.math.FlxPoint;
+import flixel.math.FlxRandom;
+import extensions.FlxPointExt;
 import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
 import flixel.util.FlxColor;
 import flixel.FlxSprite;
@@ -7,9 +10,13 @@ import flixel.FlxSprite;
 class PowerMeter extends FlxTypedSpriteGroup<FlxSprite> {
 	public static final THICKNESS:Float = 20;
 	public static final LENGTH:Float = 60;
+	private static final RUMBLE_RADIUS:Float = 1.5;
 
 	private var _shell:PowerMeterFrame;
 	private var _power:PowerMeterPower;
+
+	private var _anchor:FlxPoint;
+	private var _rnd:FlxRandom;
 
 	// a number between 0 and 1 to represent how full the meter is (0 is empty)
 	@:isVar public var power(get, set):Float;
@@ -43,9 +50,16 @@ class PowerMeter extends FlxTypedSpriteGroup<FlxSprite> {
 		add(_shell);
 		add(_power);
 		power = 0;
+
+		saveAnchor();
+		_rnd = new FlxRandom();
 	}
 
-	public function fluctuate(speed:Float):PowerMeter {
+	public function saveAnchor() {
+		_anchor = FlxPoint.get(x, y);
+	}
+
+	public function fluctuatePower(speed:Float):PowerMeter {
 		var p = power + _flucDir * speed;
 		if (p < 0) {
 			p = 0;
@@ -56,5 +70,32 @@ class PowerMeter extends FlxTypedSpriteGroup<FlxSprite> {
 		}
 		power = p;
 		return this;
+	}
+
+	public function buildUpMorePower(speed:Float):PowerMeter {
+		var p = power + _flucDir * speed;
+		if (p < 0) {
+			p = 0;
+		} else if (p > 1) {
+			p = 1;
+		}
+		power = p;
+		return this;
+	}
+
+	override function update(elapsed:Float) {
+		super.update(elapsed);
+		rumble();
+	}
+
+	private function rumble() {
+		if (power > 0) {
+			var rumblePoint = FlxPointExt.pointOnCircumference(_anchor, _rnd.float() * 360, power * RUMBLE_RADIUS);
+			x = rumblePoint.x;
+			y = rumblePoint.y;
+		} else {
+			x = _anchor.x;
+			y = _anchor.y;
+		}
 	}
 }
