@@ -1,5 +1,6 @@
 package entities;
 
+import flixel.util.FlxTimer;
 import entities.physicsgroups.BulletsPhysicsGroup;
 import flixel.FlxSprite;
 import flixel.FlxG;
@@ -31,6 +32,8 @@ class BulletMagazineManager {
 				return false;
 			}
 		}
+		
+		FmodManager.PlaySoundOneShot(FmodSFX.PlayerReload);
 		for (i in 0...magazines.length) {
 			magazines[i].reload();
 		}
