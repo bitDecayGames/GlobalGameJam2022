@@ -1,12 +1,13 @@
 package entities;
 
 class GameData {
-    public var maxAmmo = 5;
+    public static var maxAmmo = 5;
 
-    public var p1Points:Int = 0;
-    public var p2Points:Int = 0;
+    public static var p1Points:Int = 0;
+    public static var p2Points:Int = 0;
 
-    public function new() {
-        
+    function resetScores() {
+        p1Points = 0;
+        p2Points = 0;
     }
 }

@@ -26,7 +26,6 @@ using extensions.FlxStateExt;
 using echo.FlxEcho;
 
 class PlayState extends FlxTransitionableState {
-	var gameData:GameData;
 	var world:World;
 	var overlay:PlayOverlay;
 
@@ -47,8 +46,6 @@ class PlayState extends FlxTransitionableState {
 		BulletMagazineManager.instance.reset();
 		bgColor = FlxColor.GRAY;
 		Lifecycle.startup.dispatch();
-
-		gameData = new GameData();
 
 		// Initialize  FlxEcho
 		FlxEcho.init({width: FlxG.width, height: FlxG.height, gravity_y: PlayState.gravity});
@@ -86,7 +83,7 @@ class PlayState extends FlxTransitionableState {
 		super.update(elapsed);
 		timeOnState+=elapsed;
 		if (subState == null) {
-			overlay = new PlayOverlay(gameData, () -> {
+			overlay = new PlayOverlay(() -> {
 				player1.canShoot = true;
 				player2.canShoot = true;
 			});
@@ -145,6 +142,12 @@ class PlayState extends FlxTransitionableState {
 		camera.follow(player);
 		camera.targetOffset.set(-player.width / 2, -player.height * 1.5);
 		overlay.declareWinner(player);
+
+		if (player.playerNum == 0){
+			GameData.p1Points++;
+		} else if (player.playerNum == 1){
+			GameData.p2Points++;
+		}
 	}
 
 	override public function onFocusLost() {

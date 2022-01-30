@@ -1,5 +1,6 @@
 package ui;
 
+import flixel.text.FlxText;
 import entities.Player;
 import flixel.util.FlxAxes;
 import flixel.FlxG;
@@ -12,25 +13,25 @@ class PlayOverlay extends FlxSubState {
     var data:GameData;
 
     var startup:FlxSprite;
-    var p1Score:FlxSprite;
+    var p1Score:FlxText;
     var p1Ammo:Array<FlxSprite> = new Array<FlxSprite>();
-    var p2Score:FlxSprite;
+    var p2Score:FlxText;
     var p2Ammo:Array<FlxSprite> = new Array<FlxSprite>();
 
     var gameStarted:Bool = false;
 
     var callback:Void->Void;
 
-    public function new(data:GameData, callback:Void->Void) {
+    public function new(callback:Void->Void) {
         super();
 
-        this.data = data;
         this.callback = callback;
     }
 
     function CreateBulletSprite(x:Int, y:Int):FlxSprite {
         var bulletSprite = new FlxSprite();
-        bulletSprite.makeGraphic(20, 20, FlxColor.BROWN);
+        bulletSprite.loadGraphic(AssetPaths.slimeball__png, true, 80, 80);
+		bulletSprite.scale.scale((15 * 2.0) / bulletSprite.width);
         bulletSprite.x = x;
         bulletSprite.y = y;
         add(bulletSprite);
@@ -40,17 +41,19 @@ class PlayOverlay extends FlxSubState {
     override function create() {
         super.create();
 
-        p1Score = new FlxSprite();
-        p1Score.makeGraphic(50, 50, FlxColor.LIME);
-        p1Score.x = 20;
-        p1Score.y = 20;
+        p1Score = new FlxText();
+        p1Score.size = 45;
+        p1Score.text = "" + GameData.p1Points;
+        p1Score.x = 30;
+        p1Score.y = 25;
         add(p1Score);
 
 
-        p2Score = new FlxSprite();
-        p2Score.makeGraphic(50, 50, FlxColor.LIME);
-        p2Score.x = FlxG.width - 70;
-        p2Score.y = 20;
+        p2Score = new FlxText();
+        p2Score.size = 45;
+        p2Score.text = "" + GameData.p2Points;
+        p2Score.x = FlxG.width - 60;
+        p2Score.y = 25;
         add(p2Score);
 
         reload();
@@ -100,11 +103,11 @@ class PlayOverlay extends FlxSubState {
     }
 
     public function reload() {
-        for (i in 0...data.maxAmmo) {
+        for (i in 0...GameData.maxAmmo) {
             var spriteSpacingX = 25;
             var spriteDistanceFromTop = 20;
-            p1Ammo.push(CreateBulletSprite(50 + spriteSpacingX * (i+1), spriteDistanceFromTop));
-            p2Ammo.push(CreateBulletSprite((FlxG.width - 100) - (spriteSpacingX * i+1), spriteDistanceFromTop));
+            p1Ammo.push(CreateBulletSprite(30 + spriteSpacingX * (i+1), spriteDistanceFromTop));
+            p2Ammo.push(CreateBulletSprite((FlxG.width - 130) - (spriteSpacingX * i+1), spriteDistanceFromTop));
         }
     }
 
@@ -117,9 +120,6 @@ class PlayOverlay extends FlxSubState {
         winner.animation.play("win");
         winner.screenCenter(FlxAxes.XY);
         add(winner);
-
-        p1Score.kill();
-        p2Score.kill();
     }
 
     public function tieGame() {
@@ -130,9 +130,6 @@ class PlayOverlay extends FlxSubState {
         tie.animation.play("tie");
         tie.screenCenter(FlxAxes.XY);
         add(tie);
-
-        p1Score.kill();
-        p2Score.kill();
     }
 
     override function update(elapsed:Float) {
