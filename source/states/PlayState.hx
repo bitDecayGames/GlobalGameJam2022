@@ -114,7 +114,7 @@ class PlayState extends FlxTransitionableState {
 
 		#if debug
 		if (timeOnState > 1 && (FlxG.keys.justPressed.SPACE || SimpleController.just_pressed(Button.B, 0))) {
-			FlxG.resetGame();
+			FlxG.resetState();
 		}
 		#end
 

@@ -58,22 +58,22 @@ class PlayOverlay extends FlxSubState {
 
     function varietyMode(){
         GameData.gameMode = "random";
-        FlxG.resetGame();
+        FlxG.resetState();
     }
 
     function ammoMode(){
         GameData.gameMode = "ammo";
-        FlxG.resetGame();
+        FlxG.resetState();
     }
 
     function windmillMode(){
         GameData.gameMode = "windmill";
-        FlxG.resetGame();
+        FlxG.resetState();
     }
 
     function rapidMode(){
         GameData.gameMode = "rapid";
-        FlxG.resetGame();
+        FlxG.resetState();
     }
 
     override function create() {
