@@ -111,9 +111,11 @@ class PlayState extends FlxTransitionableState {
 			openSubState(overlay);
 		}
 
+		#if debug
 		if (timeOnState > 1 && (FlxG.keys.justPressed.SPACE || SimpleController.just_pressed(Button.B, 0))) {
 			FlxG.resetGame();
 		}
+		#end
 
 		if (player1.dead() || player2.dead()) {
 			startEndOfRound();
