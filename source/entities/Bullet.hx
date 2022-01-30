@@ -12,11 +12,12 @@ using echo.FlxEcho;
 class Bullet extends FlxSprite {
 	public static final BULLET_RADIUS:Int = 15;
 	public static final MAX_SPIN_SPEED:Float = 200;
+	public static final MAX_BOUNCES = 1;
 
 	public var isLethal:Bool = true;
 
-	var maxBounces = 1;
-	var remainingBounces = 1;
+	var maxBounces = MAX_BOUNCES;
+	var remainingBounces = MAX_BOUNCES;
 
 	public function new(x:Float, y:Float, vel:FlxPoint) {
 		super(x, y);
@@ -27,8 +28,8 @@ class Bullet extends FlxSprite {
 		scale.scale((BULLET_RADIUS * 2.0) / width);
 
 		this.add_body({
-			x: x + BULLET_RADIUS*3,
-			y: y + BULLET_RADIUS*3,
+			x: x + BULLET_RADIUS * 3,
+			y: y + BULLET_RADIUS * 3,
 			elasticity: 0.95,
 			shape: {
 				type: CIRCLE,

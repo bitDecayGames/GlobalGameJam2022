@@ -9,6 +9,8 @@ import flixel.FlxSprite;
 class WallBlock extends FlxSprite {
 	public static final WALL_SPRITE_SIZE = 120;
 	public static final WALL_HEIGHT:Int = 40;
+	public static final WALL_SCALE:Float = .333;
+
 	var stamper:FlxSprite;
 	var stampQueued = false;
 	var segmentsHigh:Int;
@@ -31,7 +33,7 @@ class WallBlock extends FlxSprite {
 
 		// build our wall as a single sprite so that stamping effect looks nice
 		makeGraphic(WALL_SPRITE_SIZE, rawSpriteHeight, FlxColor.TRANSPARENT, true);
-		scale.set(.333, .333);
+		scale.set(WALL_SCALE, WALL_SCALE);
 
 		FlxEcho.add_body(this, {
 			x: x + WALL_HEIGHT / 2,
@@ -55,8 +57,8 @@ class WallBlock extends FlxSprite {
 			for (i in 0...segmentsHigh) {
 				Timer.delay(() -> {
 					var boxPlaceId = FmodManager.PlaySoundWithReference(FmodSFX.BoxPlace);
-					var percentageOnScreen = (initialY+(i*WALL_HEIGHT))/FlxG.height;
-					var modifier = 1-percentageOnScreen;
+					var percentageOnScreen = (initialY + (i * WALL_HEIGHT)) / FlxG.height;
+					var modifier = 1 - percentageOnScreen;
 					FmodManager.SetEventParameterOnSound(boxPlaceId, "Pitch", modifier);
 					this.stamp(stamper, 0, Std.int(i * WALL_SPRITE_SIZE));
 				}, (segmentDelay + segmentsHigh - i) * 150);

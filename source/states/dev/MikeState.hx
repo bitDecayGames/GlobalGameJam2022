@@ -1,5 +1,7 @@
 package states.dev;
 
+import flixel.math.FlxPoint;
+import entities.SlimeBullet;
 import entities.BulletMagazineManager;
 import entities.physicsgroups.PhysicsCollisions;
 import entities.Floor;
@@ -18,6 +20,8 @@ import flixel.addons.transition.FlxTransitionableState;
 using extensions.FlxStateExt;
 
 class MikeState extends FlxTransitionableState {
+	var physics:PhysicsCollisions;
+
 	override public function create() {
 		super.create();
 		BulletMagazineManager.instance.reset();
@@ -25,7 +29,7 @@ class MikeState extends FlxTransitionableState {
 		// Initialize  FlxEcho
 		FlxEcho.init({width: FlxG.width, height: FlxG.height, gravity_y: PlayState.gravity});
 
-		var physics = new PhysicsCollisions();
+		physics = new PhysicsCollisions();
 
 		// FlxG.camera.pixelPerfectRender = true;
 		var rnd = new FlxRandom();
@@ -49,6 +53,23 @@ class MikeState extends FlxTransitionableState {
 
 	override public function update(elapsed:Float) {
 		super.update(elapsed);
+
+		if (FlxG.keys.justPressed.Y) {
+			var pos = FlxG.mouse.getWorldPosition();
+			addBullet(pos.x, pos.y, 1.0);
+		}
+		if (FlxG.keys.justPressed.T) {
+			var pos = FlxG.mouse.getWorldPosition();
+			addBullet(pos.x, pos.y, -1.0);
+		}
+	}
+
+	function addBullet(x:Float, y:Float, v:Float) {
+		var bullet = new SlimeBullet(x, y, FlxPoint.get(200 * v, 100));
+		FlxG.state.add(bullet);
+		if (physics.bullets != null) {
+			physics.bullets.addBullet(bullet);
+		}
 	}
 
 	override public function onFocusLost() {
