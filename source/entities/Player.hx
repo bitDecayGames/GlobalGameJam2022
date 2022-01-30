@@ -1,5 +1,6 @@
 package entities;
 
+import helpers.PlayerColors;
 import ui.PlayOverlay;
 import extensions.FlxPointExt;
 import flixel.system.FlxAssets;
@@ -63,6 +64,7 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 	public var magazine:BulletMagazine;
 
 	var isDead:Bool = false;
+
 	public static inline var IDLE = "idle";
 	public static inline var DYING = "dying";
 
@@ -71,6 +73,7 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 		this.bulletPhysicsGroup = bulletPhysicsGroup;
 		body = new PlayerBodySprite(this);
 		body.loadGraphic(AssetPaths.player__png, true, 171, 387);
+		body.flipX = playerNum != 0;
 		body.animation.add(IDLE, [for (i in 0...20) i], 10, true);
 		body.animation.add(DYING, [for (i in 21...26) i], 10);
 		body.animation.play(IDLE);
@@ -113,15 +116,7 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 		});
 
 		// set up color shifting shader based on playerNum
-		var shader = new ColorShifterShader([
-			// 148 => FlxColor.BLUE,
-			// 162 => FlxColor.BLUE,
-			// 170 => FlxColor.BLUE,
-			// 198 => FlxColor.BLUE,
-			// 240 => FlxColor.BLUE,
-			// 249 => FlxColor.BLUE,
-			// 227 => FlxColor.BLUE,
-		]);
+		var shader = new ColorShifterShader(PlayerColors.all[playerNum]);
 		body.shader = shader;
 
 		magazine = new BulletMagazine(MAX_AMMO);
@@ -148,7 +143,7 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 		}
 
 		if (GameData.currentRound.spinningArms) {
-			if (playerNum == 0){
+			if (playerNum == 0) {
 				angleInd.angle = (angleInd.angle - windmillSpeed) % 360;
 			} else {
 				angleInd.angle = (angleInd.angle + windmillSpeed) % 360;
@@ -161,17 +156,17 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 				angleInd.angle -= CHANGE_ANGLE_SPEED;
 			}
 			// KEYBOARD CONTROLS END HERE
-	
+
 			var stick = SimpleController.getLeftStick(playerNum);
 			if (stick != null && stick.length > 0.2) {
 				stick.normalize();
 				// TODO: MW might want to add some lerp to this so that the angle isn't so jittery from your finger?
-	
+
 				// the + 90 is here because stick.degrees is relative to the horizontal axis, but we need it relative to the vertical
 				// axis to match up with the fact that 0 degress equals up
 				angleInd.angle = stick.degrees + 90;
 			}
-		} 
+		}
 
 		var reloadSuccessful = BulletMagazineManager.instance.attemptReload(bulletPhysicsGroup);
 		if (reloadSuccessful) {
@@ -196,7 +191,7 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 
 			// need the 90 degree diff because of differences in "up" from Flx to Echo.
 			var tipOfGun = FlxPointExt.pointOnCircumference(FlxPoint.get(x, y), angleInd.angle - 90, ANGLE_RADIUS);
-			var bullet = new SlimeBullet(tipOfGun.x - Bullet.BULLET_RADIUS*3, tipOfGun.y - Bullet.BULLET_RADIUS*3,
+			var bullet = new SlimeBullet(tipOfGun.x - Bullet.BULLET_RADIUS * 3, tipOfGun.y - Bullet.BULLET_RADIUS * 3,
 				FlxVector.get(0, -1).rotateByDegrees(angleInd.angle).scale(MIN_SHOOT_POWER + powerMeter.power * POWER_SCALE));
 			FlxG.state.add(bullet);
 			if (bulletPhysicsGroup != null) {
@@ -214,7 +209,7 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 		FmodManager.PlaySoundOneShot(FmodSFX.PlayerDie);
 		hitBy.kill();
 		body.animation.play(DYING);
-		isDead = true;	
+		isDead = true;
 	}
 
 	override function kill() {
