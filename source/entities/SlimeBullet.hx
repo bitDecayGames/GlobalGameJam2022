@@ -1,5 +1,7 @@
 package entities;
 
+import helpers.PlayerColors;
+import shaders.ColorShifterShader;
 import entities.emitters.TimedEmitter;
 import echo.math.Vector2;
 import flixel.math.FlxPoint;
@@ -12,7 +14,7 @@ import echo.data.Data.CollisionData;
 using echo.FlxEcho;
 
 class SlimeBullet extends Bullet {
-	private static final SLIME_SCALE = 3.0;
+	public static final SLIME_SCALE = 3.0;
 
 	var slimeStamp:FlxSprite;
 
@@ -20,11 +22,12 @@ class SlimeBullet extends Bullet {
 	var tmpLocal = new FlxPoint();
 	var overlap = 50;
 
-	public function new(x:Float, y:Float, vel:FlxPoint) {
+	public function new(x:Float, y:Float, vel:FlxPoint, playerNum:Int, slimeStamp:FlxSprite) {
 		super(x, y, vel);
 
-		slimeStamp = new FlxSprite(AssetPaths.slime1__png);
-		slimeStamp.scale.scale(SLIME_SCALE);
+		this.slimeStamp = slimeStamp;
+
+		shader = new ColorShifterShader(PlayerColors.all[playerNum].ball);
 	}
 
 	override function hit(terrain:FlxSprite, collisionData:Array<CollisionData>) {
@@ -41,7 +44,7 @@ class SlimeBullet extends Bullet {
 		// scale it properly
 		tmp.scale(1 / terrain.scale.x);
 
-		tmp.add(terrain.width/2, terrain.height/2);
+		tmp.add(terrain.width / 2, terrain.height / 2);
 
 		var normalAdjustment = collisionData[0].normal * overlap;
 
