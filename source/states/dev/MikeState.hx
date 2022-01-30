@@ -25,7 +25,7 @@ class MikeState extends FlxTransitionableState {
 
 		var physics = new PhysicsCollisions();
 
-		FlxG.camera.pixelPerfectRender = true;
+		// FlxG.camera.pixelPerfectRender = true;
 		var rnd = new FlxRandom();
 		var wall = new Wall(FlxG.width * .5, 0).buildWallBlocks(10, rnd.int(1, 3));
 		add(wall);

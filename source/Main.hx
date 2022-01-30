@@ -37,7 +37,6 @@ class Main extends Sprite {
 		#elseif tanner
 		startingState = ParticlePlayState;
 		#else
-
 		if (Macros.isDefined("SKIP_SPLASH")) {
 			startingState = MainMenuState;
 		}
