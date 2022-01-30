@@ -12,6 +12,15 @@ class FmodSongs {
 class FmodSFX {
     public static inline var AnnouncerGo:String = "event:/SFX/Announcer/AnnouncerGo";
     public static inline var AnnouncerReady:String = "event:/SFX/Announcer/AnnouncerReady";
+    public static inline var AnnouncerRound1:String = "event:/SFX/Announcer/AnnouncerRound1";
+    public static inline var AnnouncerRound2:String = "event:/SFX/Announcer/AnnouncerRound2";
+    public static inline var AnnouncerRound3:String = "event:/SFX/Announcer/AnnouncerRound3";
+    public static inline var AnnouncerRound4:String = "event:/SFX/Announcer/AnnouncerRound4";
+    public static inline var AnnouncerRound5:String = "event:/SFX/Announcer/AnnouncerRound5";
+    public static inline var AnnouncerRound6:String = "event:/SFX/Announcer/AnnouncerRound6";
+    public static inline var AnnouncerRound7:String = "event:/SFX/Announcer/AnnouncerRound7";
+    public static inline var AnnouncerRound8:String = "event:/SFX/Announcer/AnnouncerRound8";
+    public static inline var AnnouncerRoundFinal:String = "event:/SFX/Announcer/AnnouncerRoundFinal";
     public static inline var AnnouncerSet:String = "event:/SFX/Announcer/AnnouncerSet";
     public static inline var BallTerrain:String = "event:/SFX/Ball/BallTerrain";
     public static inline var BoxPlace:String = "event:/SFX/Box/BoxPlace";
@@ -21,4 +30,7 @@ class FmodSFX {
     public static inline var PlayerReload:String = "event:/SFX/Player/PlayerReload";
     public static inline var PlayerShoot:String = "event:/SFX/Player/PlayerShoot";
     public static inline var PlayerShootEmpty:String = "event:/SFX/Player/PlayerShootEmpty";
+    public static inline var ScoreAdd:String = "event:/SFX/Score/ScoreAdd";
+    public static inline var ScoreAddSimple:String = "event:/SFX/Score/ScoreAddSimple";
+    public static inline var ScorePoint:String = "event:/SFX/Score/ScorePoint";
 }
