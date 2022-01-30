@@ -52,7 +52,7 @@ class PlayOverlay extends FlxSubState {
     }
 
     function varietyMode(){
-        GameData.gameMode = "variety";
+        GameData.gameMode = "random";
         FlxG.resetGame();
     }
 
@@ -74,7 +74,7 @@ class PlayOverlay extends FlxSubState {
     override function create() {
         super.create();
 
-        varietyButton = new FlxButton(FlxG.width/2 - 160, 22, "Variety", varietyMode);
+        varietyButton = new FlxButton(FlxG.width/2 - 160, 22, "Random", varietyMode);
 		add(varietyButton);
         ammoButton = new FlxButton(FlxG.width/2 - 80, 22, "Ammo", ammoMode);
 		add(ammoButton);

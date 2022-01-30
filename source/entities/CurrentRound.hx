@@ -13,7 +13,7 @@ class CurrentRound {
 
     public function new (proposedGameMode:String){
 
-        if (proposedGameMode == "variety"){
+        if (proposedGameMode == "random"){
             var gameModeIndex = randomNumberGenerator.int(0, 2);
             switch (gameModeIndex) {
                 case 0:
