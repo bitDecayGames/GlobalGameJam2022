@@ -14,6 +14,7 @@ class FmodSFX {
     public static inline var AnnouncerReady:String = "event:/SFX/Announcer/AnnouncerReady";
     public static inline var AnnouncerSet:String = "event:/SFX/Announcer/AnnouncerSet";
     public static inline var BallTerrain:String = "event:/SFX/Ball/BallTerrain";
+    public static inline var BoxPlace:String = "event:/SFX/Box/BoxPlace";
     public static inline var MenuHover:String = "event:/SFX/Menu/MenuHover";
     public static inline var MenuSelect:String = "event:/SFX/Menu/MenuSelect";
     public static inline var PlayerDie:String = "event:/SFX/Player/PlayerDie";
