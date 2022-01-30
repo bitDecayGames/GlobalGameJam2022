@@ -6,7 +6,7 @@ import flixel.util.FlxColor;
 import echo.FlxEcho;
 
 class BulletMagazineManager {
-	public static var instance = new BulletMagazineManager();
+	public static final instance = new BulletMagazineManager();
 
 	private var magazines:Array<BulletMagazine>;
 
@@ -18,11 +18,16 @@ class BulletMagazineManager {
 		magazines.push(magazine);
 	}
 
-	public function canReload():Bool {
+	public function attemptReload():Bool {
+		var count:Int = 0;
 		for (i in 0...magazines.length) {
-			if (magazines[i].count() > 0) {
+			count = magazines[i].count();
+			if (count > 0 || count < 0) {
 				return false;
 			}
+		}
+		for (i in 0...magazines.length) {
+			magazines[i].reload();
 		}
 		return true;
 	}

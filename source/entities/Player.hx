@@ -28,6 +28,7 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 	private static final MIN_SHOOT_POWER:Float = 75;
 	private static final ANGLE_RADIUS:Float = 80;
 	public static final GROUND_ELEVATION:Float = 70;
+	// set this to -1 for infinite ammo
 	private static final MAX_AMMO:Int = 5;
 
 	var speed:Float = 30;
@@ -91,7 +92,7 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 	override public function update(delta:Float) {
 		super.update(delta);
 
-		if (SimpleController.just_pressed(Button.A, playerNum)) {
+		if (SimpleController.just_pressed(Button.A, playerNum) && magazine.count() > 0) {
 			powerMeter.power = 0;
 			powerMeter.visible = true;
 		} else if (SimpleController.pressed(Button.A, playerNum) && powerMeter.visible) {
@@ -119,14 +120,12 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 			angleInd.angle = stick.degrees + 90;
 		}
 
-		// comment out these three lines if you want to enable rapid fire
-		if (BulletMagazineManager.instance.canReload()) {
-			magazine.reload();
-		}
+		BulletMagazineManager.instance.attemptReload();
 	}
 
 	public function shoot() {
 		if (magazine.shoot()) {
+			trace('count: ${magazine.count()}');
 			FmodManager.PlaySoundOneShot(FmodSFX.PlayerShoot);
 
 			// need the 90 degree diff because of differences in "up" from Flx to Echo.

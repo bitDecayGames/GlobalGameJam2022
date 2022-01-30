@@ -11,11 +11,14 @@ class BulletMagazine {
 
 	public function new(maxBullets:Int) {
 		_maxBullets = maxBullets;
+		_curBullets = maxBullets;
 	}
 
 	public function shoot():Bool {
-		if (_curBullets <= 0) {
+		if (_curBullets == 0) {
 			return false;
+		} else if (_curBullets < 0) {
+			return true;
 		}
 		_curBullets--;
 		return true;
