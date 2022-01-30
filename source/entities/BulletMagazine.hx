@@ -26,6 +26,7 @@ class BulletMagazine {
 
 	public function reload() {
 		_curBullets = _maxBullets;
+		FmodManager.PlaySoundOneShot(FmodSFX.PlayerReload);
 	}
 
 	public function count():Int {

@@ -130,6 +130,8 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 			} else if (SimpleController.just_released(Button.A, playerNum) && powerMeter.visible) {
 				powerMeter.visible = false;
 				shoot();
+			} else if (SimpleController.just_pressed(Button.A, playerNum) && magazine.count() <= 0) {
+				FmodManager.PlaySoundOneShot(FmodSFX.PlayerShootEmpty);
 			}
 		}
 
@@ -170,9 +172,6 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 
 			if (overlay != null) {
 				overlay.subtractAmmoFromPlayer(this);
-				trace('subtracted ammo from overrlay');
-			} else {
-				trace('overlay is null');
 			}
 
 			// need the 90 degree diff because of differences in "up" from Flx to Echo.
@@ -185,8 +184,6 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 			}
 
 			FlxG.camera.shake(powerMeter.power / 85, powerMeter.power / 3);
-		} else {
-			// TODO: MW SFX click
 		}
 	}
 
