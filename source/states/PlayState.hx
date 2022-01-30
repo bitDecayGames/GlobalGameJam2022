@@ -57,6 +57,12 @@ class PlayState extends FlxTransitionableState {
 		physics = new PhysicsCollisions();
 
 		FlxG.camera.pixelPerfectRender = true;
+
+		var bg = new FlxSprite(AssetPaths.moonscape__png);
+		bg.width = FlxG.width;
+		bg.height = FlxG.height;
+		add(bg);
+
 		var wall = new Wall(FlxG.width * .5, 0).buildWallBlocks();
 		add(wall);
 
