@@ -1,5 +1,6 @@
 package states;
 
+import entities.CurrentRound;
 import entities.BulletMagazineManager;
 import haxe.Timer;
 import flixel.util.FlxTimer;
@@ -74,6 +75,8 @@ class PlayState extends FlxTransitionableState {
 		add(floor);
 
 		var playerPlacement = FlxG.random.int(PLAYER_MIN_EDGE_DIST, PLAYER_MAX_EDGE_DIST);
+
+		GameData.currentRound = new CurrentRound(GameData.gameMode);
 
 		player1 = new Player(playerPlacement, floor.y - Player.GROUND_ELEVATION, 0, physics.bullets);
 		add(player1);
