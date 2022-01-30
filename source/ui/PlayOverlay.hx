@@ -1,5 +1,9 @@
 package ui;
 
+import haxe.Timer;
+import flixel.tweens.FlxEase;
+import flixel.math.FlxPoint;
+import flixel.tweens.FlxTween;
 import flixel.ui.FlxButton;
 import flixel.text.FlxText;
 import entities.Player;
@@ -17,6 +21,8 @@ class PlayOverlay extends FlxSubState {
     var p1Ammo:Array<FlxSprite> = new Array<FlxSprite>();
     var p2Score:FlxText;
     var p2Ammo:Array<FlxSprite> = new Array<FlxSprite>();
+
+    var pointAward:FlxText;
 
     var currentRoundText:FlxText;
 
@@ -134,6 +140,10 @@ class PlayOverlay extends FlxSubState {
         };
 
         add(startup);
+
+        pointAward = new FlxText("+1");
+        pointAward.visible = false;
+        add(pointAward);
     }
 
     public function subtractAmmoFromPlayer(player:Player){
@@ -161,16 +171,43 @@ class PlayOverlay extends FlxSubState {
 
     public function declareWinner(player:Player) {
         // TODO: Use the real victory overlay
-        var winner = new FlxSprite();
-        winner.scrollFactor.set(0,0);
-		winner.loadGraphic(AssetPaths.readysetgo__png, true, 200, 200);
-        winner.animation.add("win", [2], 1, false);
-        winner.animation.play("win");
-        winner.screenCenter(FlxAxes.XY);
-        add(winner);
+        // var winner = new FlxSprite();
+        // winner.scrollFactor.set(0,0);
+		// winner.loadGraphic(AssetPaths.readysetgo__png, true, 200, 200);
+        // winner.animation.add("win", [2], 1, false);
+        // winner.animation.play("win");
+        // winner.screenCenter(FlxAxes.XY);
+        // add(winner);
 
-        p1Score.text = "" + GameData.p1Points;
-        p2Score.text = "" + GameData.p2Points;
+        // TODO: SFX Player "Num" WINS!
+
+        pointAward.screenCenter();
+        currentRoundText.size = 30;
+        pointAward.visible = true;
+
+        var target = FlxPoint.get();
+        if (player.playerNum == 0) {
+            target.copyFrom(p1Score.getPosition());
+        } else {
+            target.copyFrom(p2Score.getPosition());
+        }
+
+        pointAward.size = 64;
+        FlxTween.tween(pointAward, {
+            x: target.x,
+            y: target.y,
+            size: 30,
+        }, 1, { ease: FlxEase.sineOut, onComplete: (t) -> {
+            FmodManager.PlaySoundOneShot(FmodSFX.AnnouncerGo);
+            pointAward.visible = false;
+            p1Score.text = "" + GameData.p1Points;
+            p2Score.text = "" + GameData.p2Points;
+
+            Timer.delay(() -> {
+                // TODO: Check if we have ultimate victory here to go to the final victory screen
+                FlxG.resetState();
+            }, 1500);
+        }});
     }
 
     public function tieGame() {

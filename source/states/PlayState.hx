@@ -1,5 +1,7 @@
 package states;
 
+import flixel.tweens.FlxTween;
+import flixel.FlxCamera.FlxCameraFollowStyle;
 import entities.CurrentRound;
 import entities.BulletMagazineManager;
 import haxe.Timer;
@@ -150,9 +152,6 @@ class PlayState extends FlxTransitionableState {
 	}
 
 	private function declareWinner(player:Player) {
-		camera.follow(player);
-		camera.targetOffset.set(-player.width / 2, -player.height * 1.5);
-		
 		if (player.playerNum == 0){
 			GameData.p1Points++;
 		} else if (player.playerNum == 1){
