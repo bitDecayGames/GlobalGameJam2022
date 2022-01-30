@@ -26,7 +26,7 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 	private static final CHANGE_ANGLE_SPEED:Float = 1.0;
 	private static final POWER_SCALE:Float = 300;
 	private static final MIN_SHOOT_POWER:Float = 75;
-	private static final ANGLE_RADIUS:Float = 70;
+	private static final ANGLE_RADIUS:Float = 80;
 	public static final GROUND_ELEVATION:Float = 70;
 
 	var speed:Float = 30;

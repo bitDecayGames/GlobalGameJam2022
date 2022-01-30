@@ -11,7 +11,7 @@ using echo.FlxEcho;
 class Bullet extends FlxSprite {
 	public static final BULLET_RADIUS:Int = 10;
 
-	public var isLethal:Bool = false;
+	public var isLethal:Bool = true;
     var maxBounces = 1;
     var remainingBounces = 1;
 
