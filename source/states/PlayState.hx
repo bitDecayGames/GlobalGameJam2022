@@ -37,6 +37,10 @@ class PlayState extends FlxTransitionableState {
 
 	var physics:PhysicsCollisions;
 
+
+	var roundEndStart:Bool = false;
+	var timeSinceRoundEnded:Float = 0;
+	var maxRoundEndTime:Float = 8;
 	var roundEnding = false;
 
 	var PLAYER_MIN_EDGE_DIST = 50;
@@ -111,6 +115,11 @@ class PlayState extends FlxTransitionableState {
 
 		if (player1.dead() || player2.dead()) {
 			startEndOfRound();
+			roundEndStart = true;
+		}
+
+		if (roundEndStart){
+			timeSinceRoundEnded += elapsed;
 		}
 
 		physics.cullStrayBullets();
@@ -127,7 +136,10 @@ class PlayState extends FlxTransitionableState {
 
 	private function queueEndCheck() {
 		Timer.delay(() -> {
-			if (physics.bullets.bulletsAlive()) {
+			if (player1.dead() && player2.dead()) {
+				trace('checking for tie');
+				checkWinner();
+			} else if (physics.bullets.bulletsAlive() && timeSinceRoundEnded < maxRoundEndTime) {
 				queueEndCheck();
 			} else {
 				trace('checking winner');
@@ -139,7 +151,9 @@ class PlayState extends FlxTransitionableState {
 	private function checkWinner() {
 		if (player1.dead() && player2.dead()) {
 			trace('TIE GAME!');
-			overlay.tieGame();
+			Timer.delay(() -> {
+                FlxG.resetState();
+            }, 1500);
 		} else if (player1.dead()) {
 			trace("PLAYER 2 WINS!");
 			declareWinner(player2);
