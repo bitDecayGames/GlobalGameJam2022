@@ -40,6 +40,9 @@ class MikeState extends FlxTransitionableState {
 		add(player2);
 
 		physics.init([player1, player2], wall, floor);
+
+		player1.canShoot = true;
+		player2.canShoot = true;
 	}
 
 	override public function update(elapsed:Float) {

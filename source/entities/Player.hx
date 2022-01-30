@@ -61,7 +61,6 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 		body.loadGraphic(AssetPaths.test_player__png);
 		body.antialiasing = true;
 		body.scale.scale(SCALE);
-		// body.makeGraphic(wid, hig, FlxColor.MAGENTA);
 		add(body);
 
 		arm = new FlxSprite();
