@@ -40,7 +40,7 @@ class Wall extends FlxTypedSpriteGroup<WallBlock> {
 
 				// update our next i to be height + 1 for our next wall segment
 
-				var gfx = new WallBlock(x, startY - segmentHeight * WallBlock.WALL_HEIGHT, segmentHeight);
+				var gfx = new WallBlock(x - WallBlock.WALL_HEIGHT * .5, startY - segmentHeight * WallBlock.WALL_HEIGHT, segmentHeight);
 				add(gfx);
 			}
 		}
