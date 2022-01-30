@@ -1,5 +1,6 @@
 package states.dev;
 
+import entities.BulletMagazineManager;
 import entities.physicsgroups.PhysicsCollisions;
 import entities.Floor;
 import entities.Player;
@@ -19,6 +20,7 @@ using extensions.FlxStateExt;
 class MikeState extends FlxTransitionableState {
 	override public function create() {
 		super.create();
+		BulletMagazineManager.instance.reset();
 
 		// Initialize  FlxEcho
 		FlxEcho.init({width: FlxG.width, height: FlxG.height, gravity_y: PlayState.gravity});

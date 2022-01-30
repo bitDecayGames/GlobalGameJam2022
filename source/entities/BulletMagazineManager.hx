@@ -11,7 +11,7 @@ class BulletMagazineManager {
 	private var magazines:Array<BulletMagazine>;
 
 	public function new() {
-		magazines = [];
+		reset();
 	}
 
 	public function add(magazine:BulletMagazine) {
@@ -33,5 +33,9 @@ class BulletMagazineManager {
 			magazines[i].reload();
 		}
 		return true;
+	}
+
+	public function reset() {
+		magazines = [];
 	}
 }

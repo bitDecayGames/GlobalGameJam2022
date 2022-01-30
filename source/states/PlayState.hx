@@ -1,5 +1,6 @@
 package states;
 
+import entities.BulletMagazineManager;
 import haxe.Timer;
 import flixel.util.FlxTimer;
 import input.SimpleController;
@@ -41,6 +42,7 @@ class PlayState extends FlxTransitionableState {
 
 	override public function create() {
 		super.create();
+		BulletMagazineManager.instance.reset();
 		bgColor = FlxColor.GRAY;
 		Lifecycle.startup.dispatch();
 
