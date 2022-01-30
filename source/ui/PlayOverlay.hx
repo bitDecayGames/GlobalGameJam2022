@@ -115,35 +115,70 @@ class PlayOverlay extends FlxSubState {
         startup = new FlxSprite();
 		startup.loadGraphic(AssetPaths.readysetgo__png, true, 869, 278);
 		startup.animation.add("countdown", [0, 1, 2, 0], 1);
-        startup.animation.play("countdown");
         startup.screenCenter(FlxAxes.XY);
+        startup.visible = false;
+
+        announceRoundNumber();
 
 
         // Do this effect up front as the first frame doesn't seem to trigger it correctly
-        FmodManager.PlaySoundOneShot(FmodSFX.AnnouncerReady);
-        startup.animation.callback = (name:String, frameNum:Int, frameIndex:Int) -> {
-            trace('name: ${name}, frame number: ${frameNum}, frame index: ${frameIndex}');
-            // if (name == "countdown" && frameNum == 0) {
-            //     FmodManager.PlaySoundOneShot(FmodSFX.AnnouncerReady);
-            // }
-            if (name == "countdown" && frameNum == 1) {
-                FmodManager.PlaySoundOneShot(FmodSFX.AnnouncerSet);
+        Timer.delay(() -> {
+            if (_parentState == null) {
+                return;
             }
-            if (name == "countdown" && frameNum == 2) {
-                FmodManager.PlaySoundOneShot(FmodSFX.AnnouncerGo);
-            }
-            if (name == "countdown" && frameNum == 3) {
-                gameStarted = true;
-                callback();
-                startup.kill();
-            }
-        };
+            
+            startup.visible = true;
+            startup.animation.play("countdown");
+            FmodManager.PlaySoundOneShot(FmodSFX.AnnouncerReady);
+            startup.animation.callback = (name:String, frameNum:Int, frameIndex:Int) -> {
+                trace('name: ${name}, frame number: ${frameNum}, frame index: ${frameIndex}');
+                // if (name == "countdown" && frameNum == 0) {
+                //     FmodManager.PlaySoundOneShot(FmodSFX.AnnouncerReady);
+                // }
+                if (name == "countdown" && frameNum == 1) {
+                    FmodManager.PlaySoundOneShot(FmodSFX.AnnouncerSet);
+                }
+                if (name == "countdown" && frameNum == 2) {
+                    FmodManager.PlaySoundOneShot(FmodSFX.AnnouncerGo);
+                }
+                if (name == "countdown" && frameNum == 3) {
+                    gameStarted = true;
+                    callback();
+                    startup.kill();
+                }
+            };
+        }, 1000);
+       
 
         add(startup);
 
         pointAward = new FlxText("+1");
         pointAward.visible = false;
         add(pointAward);
+    }
+
+    private function announceRoundNumber() {
+        var roundNum = GameData.p1Points + GameData.p2Points + 1;
+        switch (roundNum) {
+            case 1:
+                FmodManager.PlaySoundOneShot(FmodSFX.AnnouncerRound1);
+            case 2:
+                FmodManager.PlaySoundOneShot(FmodSFX.AnnouncerRound2);
+            case 3:
+                FmodManager.PlaySoundOneShot(FmodSFX.AnnouncerRound3);
+            case 4:
+                FmodManager.PlaySoundOneShot(FmodSFX.AnnouncerRound4);
+            case 5:
+                FmodManager.PlaySoundOneShot(FmodSFX.AnnouncerRound5);
+            case 6:
+                FmodManager.PlaySoundOneShot(FmodSFX.AnnouncerRound6);
+            case 7:
+                FmodManager.PlaySoundOneShot(FmodSFX.AnnouncerRound7);
+            case 8:
+                FmodManager.PlaySoundOneShot(FmodSFX.AnnouncerRound8);
+            case 9:
+                FmodManager.PlaySoundOneShot(FmodSFX.AnnouncerRoundFinal);
+      }
     }
 
     public function subtractAmmoFromPlayer(player:Player){
