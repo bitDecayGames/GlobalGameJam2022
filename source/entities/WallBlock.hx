@@ -1,5 +1,6 @@
 package entities;
 
+import flixel.FlxG;
 import haxe.Timer;
 import echo.FlxEcho;
 import flixel.util.FlxColor;
@@ -13,9 +14,14 @@ class WallBlock extends FlxSprite {
 	var segmentsHigh:Int;
 	var segmentDelay:Int;
 
+	var initialY:Float;
+
 	public function new(x:Float, y:Float, height:Int, constructionDelay:Int) {
 		trace('making block at (${x}, ${y}) of height ${height}');
 		super();
+
+		initialY = y;
+
 		segmentsHigh = height;
 		// +1 for nice cadence
 		segmentDelay = constructionDelay + 1;
@@ -48,9 +54,12 @@ class WallBlock extends FlxSprite {
 
 			for (i in 0...segmentsHigh) {
 				Timer.delay(() -> {
-					// TODO: SFX Build wall block
+					var boxPlaceId = FmodManager.PlaySoundWithReference(FmodSFX.BoxPlace);
+					var percentageOnScreen = (initialY+(i*WALL_HEIGHT))/FlxG.height;
+					var modifier = 1-percentageOnScreen;
+					FmodManager.SetEventParameterOnSound(boxPlaceId, "Pitch", modifier);
 					this.stamp(stamper, 0, Std.int(i * WALL_SPRITE_SIZE));
-				}, (segmentDelay + segmentsHigh - i) * 200);
+				}, (segmentDelay + segmentsHigh - i) * 150);
 			}
 		}
 	}

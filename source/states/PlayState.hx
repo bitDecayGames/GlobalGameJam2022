@@ -74,8 +74,11 @@ class PlayState extends FlxTransitionableState {
 		physics.init([player1, player2], wall, floor);
 	}
 
+	var timeOnState:Float = 0;
+
 	override public function update(elapsed:Float) {
 		super.update(elapsed);
+		timeOnState+=elapsed;
 		if (subState == null) {
 			overlay = new PlayOverlay(gameData, () -> {
 				player1.canShoot = true;
@@ -86,7 +89,7 @@ class PlayState extends FlxTransitionableState {
 			openSubState(overlay);
 		}
 
-		if (FlxG.keys.justPressed.SPACE || SimpleController.just_pressed(Button.B, 0)) {
+		if (timeOnState > 1 && (FlxG.keys.justPressed.SPACE || SimpleController.just_pressed(Button.B, 0))) {
 			FlxG.resetGame();
 		}
 
