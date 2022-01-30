@@ -1,5 +1,6 @@
 package entities;
 
+import entities.emitters.TimedEmitter;
 import echo.math.Vector2;
 import flixel.math.FlxPoint;
 import flixel.math.FlxVector;
@@ -38,6 +39,10 @@ class SlimeBullet extends Bullet {
         trace('stamping at local: (${localX}, ${localY}), angle: ${slimeStamp.angle}');
         slimeStamp.angle = FlxG.random.int(0, 359);
         terrain.stamp(slimeStamp, localX, localY);
+
+        var myMidpoint = this.getMidpoint();
+        var emitter = new TimedEmitter(myMidpoint.x + tmpNormal.x, myMidpoint.y + tmpNormal.y);
+        FlxG.state.add(emitter);
 
         super.hit(terrain, collisionData);
     }
