@@ -32,6 +32,8 @@ class PlayState extends FlxTransitionableState {
 	var player1:Player;
 	var player2:Player;
 
+	var physics:PhysicsCollisions;
+
 	var roundEnding = false;
 
 	var PLAYER_MIN_EDGE_DIST = 50;
@@ -50,7 +52,7 @@ class PlayState extends FlxTransitionableState {
 		FlxEcho.init({width: FlxG.width, height: FlxG.height, gravity_y: PlayState.gravity});
 
 		// this is required for collisions to work
-		var physics = new PhysicsCollisions();
+		physics = new PhysicsCollisions();
 
 		FlxG.camera.pixelPerfectRender = true;
 		var wall = new Wall(FlxG.width * .5, 0).buildWallBlocks();
@@ -89,6 +91,8 @@ class PlayState extends FlxTransitionableState {
 		if (player1.dead() || player2.dead()) {
 			startEndOfRound();
 		}
+
+		physics.cullStrayBullets();
 	}
 
 	private function startEndOfRound() {
@@ -97,9 +101,18 @@ class PlayState extends FlxTransitionableState {
 		}
 
 		roundEnding = true;
+		queueEndCheck();
+	}
+
+	private function queueEndCheck() {
 		Timer.delay(() -> {
-			checkWinner();
-		}, 2000);
+			if (physics.bulletsAlive()) {
+				queueEndCheck();
+			} else {
+				trace('checking winner');
+				checkWinner();
+			}
+		}, 1000);
 	}
 
 	private function checkWinner() {
