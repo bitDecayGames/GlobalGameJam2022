@@ -1,5 +1,6 @@
 package entities;
 
+import flixel.math.FlxRandom;
 import flixel.FlxObject;
 import echo.data.Data.CollisionData;
 import flixel.FlxSprite;
@@ -9,7 +10,8 @@ import flixel.util.FlxColor;
 using echo.FlxEcho;
 
 class Bullet extends FlxSprite {
-	public static final BULLET_RADIUS:Int = 10;
+	public static final BULLET_RADIUS:Int = 15;
+	public static final MAX_SPIN_SPEED:Float = 200;
 
 	public var isLethal:Bool = true;
 
@@ -33,7 +35,8 @@ class Bullet extends FlxSprite {
 				radius: BULLET_RADIUS
 			},
 			velocity_x: vel.x,
-			velocity_y: vel.y
+			velocity_y: vel.y,
+			rotational_velocity: (new FlxRandom()).float(-1, 1) * MAX_SPIN_SPEED,
 		});
 	}
 
