@@ -119,6 +119,9 @@ class PlayOverlay extends FlxSubState {
         startup.screenCenter(FlxAxes.XY);
 
 
+        announceRoundNumber();
+
+
         // Do this effect up front as the first frame doesn't seem to trigger it correctly
         FmodManager.PlaySoundOneShot(FmodSFX.AnnouncerReady);
         startup.animation.callback = (name:String, frameNum:Int, frameIndex:Int) -> {
@@ -144,6 +147,14 @@ class PlayOverlay extends FlxSubState {
         pointAward = new FlxText("+1");
         pointAward.visible = false;
         add(pointAward);
+    }
+
+    private function announceRoundNumber() {
+        var roundNum = GameData.p1Points + GameData.p2Points + 1;
+        switch (roundNum) {
+            case 1:
+                FmodManager.PlaySoundOneShot(FmodSFX.AnnouncerGo);
+        }
     }
 
     public function subtractAmmoFromPlayer(player:Player){
