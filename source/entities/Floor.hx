@@ -7,7 +7,7 @@ import echo.FlxEcho;
 
 class Floor extends FlxSprite {
 	public function new() {
-		var FLOOR_HEIGHT = 10;
+		var FLOOR_HEIGHT = 20;
 		super(FlxG.width * .5, FlxG.height - FLOOR_HEIGHT);
 
 		makeGraphic(FlxG.width, FLOOR_HEIGHT, FlxColor.GREEN);
@@ -22,5 +22,7 @@ class Floor extends FlxSprite {
 			},
 			mass: 0,
 		});
+
+		visible = false;
 	}
 }

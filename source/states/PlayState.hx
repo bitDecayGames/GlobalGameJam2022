@@ -39,6 +39,8 @@ class PlayState extends FlxTransitionableState {
 	var PLAYER_MIN_EDGE_DIST = 50;
 	var PLAYER_MAX_EDGE_DIST = 300;
 
+	var floor:FlxSprite;
+
 	public static inline var gravity = 98;
 
 	override public function create() {
@@ -59,6 +61,11 @@ class PlayState extends FlxTransitionableState {
 		bg.width = FlxG.width;
 		bg.height = FlxG.height;
 		add(bg);
+
+		var floorImage = new FlxSprite(AssetPaths.floor__png);
+		floorImage.width = FlxG.width;
+		floorImage.y = FlxG.height - floorImage.height;
+		add(floorImage);
 
 		var wall = new Wall(FlxG.width * .5, 0).buildWallBlocks();
 		add(wall);
