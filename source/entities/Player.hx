@@ -27,6 +27,7 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 	private static final POWER_SCALE:Float = 300;
 	private static final MIN_SHOOT_POWER:Float = 75;
 	private static final ANGLE_RADIUS:Float = 70;
+	public static final GROUND_ELEVATION:Float = 70;
 
 	var speed:Float = 30;
 
@@ -111,7 +112,6 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 	}
 
 	public function shoot() {
-
 		FmodManager.PlaySoundOneShot(FmodSFX.PlayerShoot);
 
 		// need the 90 degree diff because of differences in "up" from Flx to Echo.
