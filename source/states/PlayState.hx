@@ -68,7 +68,10 @@ class PlayState extends FlxTransitionableState {
 	override public function update(elapsed:Float) {
 		super.update(elapsed);
 		if (subState == null) {
-			overlay = new PlayOverlay(gameData);
+			overlay = new PlayOverlay(gameData, () -> {
+				player1.canShoot = true;
+				player2.canShoot = true;
+			});
 			openSubState(overlay);
 		}
 

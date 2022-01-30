@@ -17,10 +17,13 @@ class PlayOverlay extends FlxSubState {
 
     var gameStarted:Bool = false;
 
-    public function new(data:GameData) {
+    var callback:Void->Void;
+
+    public function new(data:GameData, callback:Void->Void) {
         super();
 
         this.data = data;
+        this.callback = callback;
     }
 
     override function create() {
@@ -61,6 +64,7 @@ class PlayOverlay extends FlxSubState {
             }
             if (name == "countdown" && frameNum == 3) {
                 gameStarted = true;
+                callback();
                 startup.kill();
             }
         };
@@ -97,9 +101,6 @@ class PlayOverlay extends FlxSubState {
 
     override function update(elapsed:Float) {
         super.update(elapsed);
-
-        if (gameStarted) {
-            _parentState.update(elapsed);
-        }
+        _parentState.update(elapsed);
     }
 }
