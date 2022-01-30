@@ -1,5 +1,7 @@
 package states;
 
+import haxe.Timer;
+import flixel.util.FlxTimer;
 import input.SimpleController;
 import entities.GameData;
 import entities.Floor;
@@ -23,9 +25,14 @@ using extensions.FlxStateExt;
 using echo.FlxEcho;
 
 class PlayState extends FlxTransitionableState {
-	var player:FlxSprite;
 	var gameData:GameData;
 	var world:World;
+	var overlay:PlayOverlay;
+
+	var player1:Player;
+	var player2:Player;
+
+	var roundEnding = false;
 
 	public static inline var gravity = 98;
 
@@ -49,10 +56,10 @@ class PlayState extends FlxTransitionableState {
 		var floor = new Floor();
 		add(floor);
 
-		var player1 = new Player(100, floor.y - Player.GROUND_ELEVATION, 0, physics.bullets);
+		player1 = new Player(100, floor.y - Player.GROUND_ELEVATION, 0, physics.bullets);
 		add(player1);
 
-		var player2 = new Player(FlxG.width - 100, floor.y - Player.GROUND_ELEVATION, 1, physics.bullets);
+		player2 = new Player(FlxG.width - 100, floor.y - Player.GROUND_ELEVATION, 1, physics.bullets);
 		add(player2);
 
 		physics.init([player1, player2], wall, floor);
@@ -61,12 +68,49 @@ class PlayState extends FlxTransitionableState {
 	override public function update(elapsed:Float) {
 		super.update(elapsed);
 		if (subState == null) {
-			openSubState(new PlayOverlay(gameData, () -> {}));
+			overlay = new PlayOverlay(gameData);
+			openSubState(overlay);
 		}
 
 		if (FlxG.keys.justPressed.SPACE || SimpleController.just_pressed(Button.B, 0)) {
 			FlxG.resetGame();
 		}
+
+		if (player1.dead() || player2.dead()) {
+			startEndOfRound();
+		}
+	}
+
+	private function startEndOfRound() {
+		if (roundEnding) {
+			return;
+		}
+
+		roundEnding =  true;
+		Timer.delay(() -> {
+			checkWinner();
+		}, 2000);
+	}
+
+	private function checkWinner() {
+		if (player1.dead() && player2.dead()) {
+			trace('TIE GAME!');
+			overlay.tieGame();
+		} else if (player1.dead()) {
+			trace("PLAYER 2 WINS!");
+			declareWinner(player2);
+		} else if (player2.dead()) {
+			trace("PLAYER 1 WINS!");
+			declareWinner(player1);
+		} else {
+			trace("SOMEHOW NOBODY DIED");
+		}
+	}
+
+	private function declareWinner(player:Player) {
+		camera.follow(player);
+		camera.targetOffset.set(-player.width/2, -player.height * 1.5);
+		overlay.declareWinner(player);
 	}
 
 	override public function onFocusLost() {

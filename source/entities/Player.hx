@@ -157,4 +157,8 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 		// remove echo physics body from the world here
 		body.get_body().active = false;
 	}
+
+	public function dead() {
+		return !body.get_body().active;
+	}
 }
