@@ -62,12 +62,18 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 
 	public var magazine:BulletMagazine;
 
+	var isDead:Bool = false;
+	public static inline var IDLE = "idle";
+	public static inline var DYING = "dying";
+
 	public function new(x:Float, y:Float, playerNum:Int, bulletPhysicsGroup:Null<BulletsPhysicsGroup>) {
 		super(x, y);
 		this.bulletPhysicsGroup = bulletPhysicsGroup;
 		body = new PlayerBodySprite(this);
-		body.loadGraphic(AssetPaths.test_player__png);
-		body.antialiasing = true;
+		body.loadGraphic(AssetPaths.player__png, true, 171, 387);
+		body.animation.add(IDLE, [for (i in 0...20) i], 10, true);
+		body.animation.add(DYING, [for (i in 21...26) i], 10);
+		body.animation.play(IDLE);
 		body.scale.scale(SCALE);
 		add(body);
 
@@ -207,7 +213,8 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 		// explosions, etc.
 		FmodManager.PlaySoundOneShot(FmodSFX.PlayerDie);
 		hitBy.kill();
-		this.kill();
+		body.animation.play(DYING);
+		isDead = true;	
 	}
 
 	override function kill() {
@@ -217,6 +224,6 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 	}
 
 	public function dead() {
-		return !body.get_body().active;
+		return isDead || !body.get_body().active;
 	}
 }
