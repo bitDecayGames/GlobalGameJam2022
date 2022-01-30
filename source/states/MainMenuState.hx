@@ -59,7 +59,7 @@ class MainMenuState extends FlxUIState {
 			cursor.setDefaultKeys(keys);
 		}
 
-		FmodManager.PlaySong(FmodSongs.LetsGo);
+		FmodManager.PlaySong(FmodSongs.Slime);
 		bgColor = FlxColor.TRANSPARENT;
 		FlxG.camera.pixelPerfectRender = true;
 
@@ -137,7 +137,7 @@ class MainMenuState extends FlxUIState {
 		// 	FlxG.switchState(new PlayState());
 		// }, FlxColor.GRAY);
 		// openSubState(swirlOut);
-		FmodFlxUtilities.TransitionToStateAndStopMusic(new PlayState());
+		FmodFlxUtilities.TransitionToState(new PlayState());
 	}
 
 	function clickCredits():Void {

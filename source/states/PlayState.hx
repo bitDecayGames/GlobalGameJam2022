@@ -57,6 +57,7 @@ class PlayState extends FlxTransitionableState {
 		Lifecycle.startup.dispatch();
 
 		FmodManager.PlaySong(FmodSongs.Slime);
+		FmodManager.SetEventParameterOnSong("MainGame", 1);
 
 		// Initialize  FlxEcho
 		FlxEcho.init({width: FlxG.width, height: FlxG.height, gravity_y: PlayState.gravity});

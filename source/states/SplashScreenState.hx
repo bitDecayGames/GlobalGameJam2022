@@ -27,6 +27,8 @@ class SplashScreenState extends FlxState {
 	override public function create():Void {
 		super.create();
 
+		FmodManager.PlaySong(FmodSongs.Slime);
+		
 		// List splash screen image paths here
 		loadSplashImages([
 			new SplashImage(AssetPaths.bitdecaygamesinverted__png),
