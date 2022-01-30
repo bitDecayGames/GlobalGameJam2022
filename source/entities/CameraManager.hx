@@ -30,8 +30,8 @@ class CameraManager {
         this.camera = camera;
         this.focusHome = focusHome;
         this.currentTarget = focusHome;
-        this.baseCameraXOffset = -(camera.scroll.x - focusHome.x);
-        this.baseCameraYOffset = -(camera.scroll.y - focusHome.y);
+        this.baseCameraXOffset = -(camera.x - focusHome.x);
+        this.baseCameraYOffset = -(camera.y - focusHome.y);
     }
 
     public function zoomTo(player:Player) {
@@ -73,7 +73,7 @@ class CameraManager {
     public function update() {
                 
         //Determining if the camera has caught up with what it is following by coordinates is hard. 
-        // so lets just see if the camera has stopped moving relative to it's last position
+        trace("camera:" + camera.x + ", " + camera.y);       // so lets just see if the camera has stopped moving relative to it's last position
 
         trace("camera update!:" + this.camera.x + ", " + this.currentTransition);
         if (currentTransition == Transition.ZoomToPlayer && this.isCameraOnTarget()) {
