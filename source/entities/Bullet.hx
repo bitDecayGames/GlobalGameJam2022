@@ -27,8 +27,8 @@ class Bullet extends FlxSprite {
 		scale.scale((BULLET_RADIUS * 2.0) / width);
 
 		this.add_body({
-			x: x + BULLET_RADIUS,
-			y: y + BULLET_RADIUS,
+			x: x + BULLET_RADIUS*3,
+			y: y + BULLET_RADIUS*3,
 			elasticity: 0.95,
 			shape: {
 				type: CIRCLE,

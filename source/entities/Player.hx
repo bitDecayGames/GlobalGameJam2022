@@ -176,7 +176,7 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 
 			// need the 90 degree diff because of differences in "up" from Flx to Echo.
 			var tipOfGun = FlxPointExt.pointOnCircumference(FlxPoint.get(x, y), angleInd.angle - 90, ANGLE_RADIUS);
-			var bullet = new SlimeBullet(tipOfGun.x - Bullet.BULLET_RADIUS, tipOfGun.y - Bullet.BULLET_RADIUS,
+			var bullet = new SlimeBullet(tipOfGun.x - Bullet.BULLET_RADIUS*3, tipOfGun.y - Bullet.BULLET_RADIUS*3,
 				FlxVector.get(0, -1).rotateByDegrees(angleInd.angle).scale(MIN_SHOOT_POWER + powerMeter.power * POWER_SCALE));
 			FlxG.state.add(bullet);
 			if (bulletPhysicsGroup != null) {
