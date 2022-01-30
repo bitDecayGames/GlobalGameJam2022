@@ -1,5 +1,6 @@
 package ui;
 
+import haxe.Timer;
 import flixel.ui.FlxButton;
 import flixel.text.FlxText;
 import entities.Player;
@@ -108,7 +109,7 @@ class PlayOverlay extends FlxSubState {
         add(currentRoundText);
 
         startup = new FlxSprite();
-		startup.loadGraphic(AssetPaths.readysetgo__png, true, 200, 200);
+		startup.loadGraphic(AssetPaths.readysetgo__png, true, 869, 278);
 		startup.animation.add("countdown", [0, 1, 2, 0], 1);
         startup.animation.play("countdown");
         startup.screenCenter(FlxAxes.XY);
