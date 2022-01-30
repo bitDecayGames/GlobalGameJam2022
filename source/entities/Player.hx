@@ -28,6 +28,7 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 	private static final MIN_SHOOT_POWER:Float = 75;
 	private static final ANGLE_RADIUS:Float = 80;
 	public static final GROUND_ELEVATION:Float = 70;
+	private static final MAX_AMMO:Int = 5;
 
 	var speed:Float = 30;
 
@@ -42,6 +43,8 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 	public var body:FlxSprite;
 
 	private var bulletPhysicsGroup:Null<BulletsPhysicsGroup>;
+
+	public var magazine:BulletMagazine;
 
 	public function new(x:Float, y:Float, playerNum:Int, bulletPhysicsGroup:Null<BulletsPhysicsGroup>) {
 		super(x, y);
@@ -80,6 +83,9 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 			100 => FlxColor.PURPLE,
 		]);
 		body.shader = shader;
+
+		magazine = new BulletMagazine(MAX_AMMO);
+		BulletMagazineManager.instance.add(magazine);
 	}
 
 	override public function update(delta:Float) {
@@ -88,18 +94,20 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 		if (SimpleController.just_pressed(Button.A, playerNum)) {
 			powerMeter.power = 0;
 			powerMeter.visible = true;
-		} else if (SimpleController.pressed(Button.A, playerNum)) {
+		} else if (SimpleController.pressed(Button.A, playerNum) && powerMeter.visible) {
 			powerMeter.buildUpMorePower(delta * 2);
-		} else if (SimpleController.just_released(Button.A, playerNum)) {
+		} else if (SimpleController.just_released(Button.A, playerNum) && powerMeter.visible) {
 			powerMeter.visible = false;
 			shoot();
 		}
 
+		// TODO: KEYBOARD CONTROLS START HERE
 		if (SimpleController.pressed(Button.UP, playerNum)) {
 			angleInd.angle += CHANGE_ANGLE_SPEED;
 		} else if (SimpleController.pressed(Button.DOWN, playerNum)) {
 			angleInd.angle -= CHANGE_ANGLE_SPEED;
 		}
+		// KEYBOARD CONTROLS END HERE
 
 		var stick = SimpleController.getLeftStick(playerNum);
 		if (stick != null && stick.length > 0.2) {
@@ -110,21 +118,30 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 			// axis to match up with the fact that 0 degress equals up
 			angleInd.angle = stick.degrees + 90;
 		}
+
+		// comment out these three lines if you want to enable rapid fire
+		if (BulletMagazineManager.instance.canReload()) {
+			magazine.reload();
+		}
 	}
 
 	public function shoot() {
-		FmodManager.PlaySoundOneShot(FmodSFX.PlayerShoot);
+		if (magazine.shoot()) {
+			FmodManager.PlaySoundOneShot(FmodSFX.PlayerShoot);
 
-		// need the 90 degree diff because of differences in "up" from Flx to Echo.
-		var tipOfGun = FlxPointExt.pointOnCircumference(FlxPoint.get(x, y), angleInd.angle - 90, ANGLE_RADIUS);
-		var bullet = new SlimeBullet(tipOfGun.x, tipOfGun.y,
-			FlxVector.get(0, -1).rotateByDegrees(angleInd.angle).scale(MIN_SHOOT_POWER + powerMeter.power * POWER_SCALE));
-		FlxG.state.add(bullet);
-		if (bulletPhysicsGroup != null) {
-			bulletPhysicsGroup.addBullet(bullet);
+			// need the 90 degree diff because of differences in "up" from Flx to Echo.
+			var tipOfGun = FlxPointExt.pointOnCircumference(FlxPoint.get(x, y), angleInd.angle - 90, ANGLE_RADIUS);
+			var bullet = new SlimeBullet(tipOfGun.x, tipOfGun.y,
+				FlxVector.get(0, -1).rotateByDegrees(angleInd.angle).scale(MIN_SHOOT_POWER + powerMeter.power * POWER_SCALE));
+			FlxG.state.add(bullet);
+			if (bulletPhysicsGroup != null) {
+				bulletPhysicsGroup.addBullet(bullet);
+			}
+
+			FlxG.camera.shake(powerMeter.power / 85, powerMeter.power / 3);
+		} else {
+			// TODO: MW SFX click
 		}
-
-		FlxG.camera.shake(powerMeter.power / 85, powerMeter.power / 3);
 	}
 
 	public function shot(hitBy:Bullet) {
