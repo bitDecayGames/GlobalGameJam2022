@@ -30,6 +30,9 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 	public static final GROUND_ELEVATION:Float = 70;
 	// set this to -1 for infinite ammo
 	private static final MAX_AMMO:Int = 5;
+	
+	public var canShoot:Bool = false;
+	var hasNotTriedToShoot:Bool = true;
 
 	var speed:Float = 30;
 
@@ -92,14 +95,17 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 	override public function update(delta:Float) {
 		super.update(delta);
 
-		if (SimpleController.just_pressed(Button.A, playerNum) && magazine.count() > 0) {
-			powerMeter.power = 0;
-			powerMeter.visible = true;
-		} else if (SimpleController.pressed(Button.A, playerNum) && powerMeter.visible) {
-			powerMeter.buildUpMorePower(delta * 2);
-		} else if (SimpleController.just_released(Button.A, playerNum) && powerMeter.visible) {
-			powerMeter.visible = false;
-			shoot();
+		if(canShoot){
+			if ((hasNotTriedToShoot && SimpleController.pressed(Button.A, playerNum)) || (SimpleController.just_pressed(Button.A, playerNum) && magazine.count() > 0)) {
+				hasNotTriedToShoot = false;
+				powerMeter.power = 0;
+				powerMeter.visible = true;
+			} else if (SimpleController.pressed(Button.A, playerNum) && powerMeter.visible) {
+				powerMeter.buildUpMorePower(delta * 2);
+			} else if (SimpleController.just_released(Button.A, playerNum) && powerMeter.visible) {
+				powerMeter.visible = false;
+				shoot();
+			}
 		}
 
 		// TODO: KEYBOARD CONTROLS START HERE
