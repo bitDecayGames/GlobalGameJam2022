@@ -34,6 +34,9 @@ class PlayState extends FlxTransitionableState {
 
 	var roundEnding = false;
 
+	var PLAYER_MIN_EDGE_DIST = 50;
+	var PLAYER_MAX_EDGE_DIST = 300;
+
 	public static inline var gravity = 98;
 
 	override public function create() {
@@ -56,10 +59,12 @@ class PlayState extends FlxTransitionableState {
 		var floor = new Floor();
 		add(floor);
 
-		player1 = new Player(100, floor.y - Player.GROUND_ELEVATION, 0, physics.bullets);
+		var playerPlacement = FlxG.random.int(PLAYER_MIN_EDGE_DIST, PLAYER_MAX_EDGE_DIST);
+
+		player1 = new Player(playerPlacement, floor.y - Player.GROUND_ELEVATION, 0, physics.bullets);
 		add(player1);
 
-		player2 = new Player(FlxG.width - 100, floor.y - Player.GROUND_ELEVATION, 1, physics.bullets);
+		player2 = new Player(FlxG.width - playerPlacement, floor.y - Player.GROUND_ELEVATION, 1, physics.bullets);
 		add(player2);
 
 		physics.init([player1, player2], wall, floor);
