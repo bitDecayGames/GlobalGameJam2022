@@ -54,13 +54,14 @@ class PlayState extends FlxTransitionableState {
 		var player2 = new Player(FlxG.width - 100, floor.y - 100, 1, physics.bullets);
 		add(player2);
 
-		openSubState(new PlayOverlay(gameData, ()->{}));
-
 		physics.init([player1, player2], wall, floor);
 	}
 
 	override public function update(elapsed:Float) {
 		super.update(elapsed);
+		if (subState == null) {
+			openSubState(new PlayOverlay(gameData, ()->{}));
+		}
 
 		if (FlxG.keys.justPressed.SPACE){
 			FlxG.resetGame();

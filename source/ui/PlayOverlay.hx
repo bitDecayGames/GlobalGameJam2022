@@ -22,6 +22,10 @@ class PlayOverlay extends FlxSubState {
 
         this.data = data;
         callback = startCallback;
+    }
+
+    override function create() {
+        super.create();
 
         var test = new FlxSprite();
         test.makeGraphic(50, 50, FlxColor.LIME);
