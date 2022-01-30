@@ -12,4 +12,14 @@ class BulletsPhysicsGroup {
 	public function addBullet(b:Bullet) {
 		b.add_to_group(grp);
 	}
+
+	public function bulletsAlive():Bool {
+		// TODO: probably should clean dead bullets out of this list/group
+		for (b in grp) {
+			if (b.alive) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

@@ -52,16 +52,6 @@ class PhysicsCollisions {
 		bullets.grp.listen(bullets.grp);
 	}
 
-	public function bulletsAlive():Bool {
-		// TODO: probably should clean dead bullets out of this list/group
-		for (b in bullets.grp) {
-			if (b.alive) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	public function cullStrayBullets() {
 		for (bullet in bullets.grp) {
 			var body = cast(bullet, FlxObject).get_body();

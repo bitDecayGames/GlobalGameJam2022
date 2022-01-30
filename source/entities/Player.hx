@@ -151,7 +151,7 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 			angleInd.angle = stick.degrees + 90;
 		}
 
-		var reloadSuccessful = BulletMagazineManager.instance.attemptReload();
+		var reloadSuccessful = BulletMagazineManager.instance.attemptReload(bulletPhysicsGroup);
 		if (reloadSuccessful) {
 			overlay.reload();
 		}

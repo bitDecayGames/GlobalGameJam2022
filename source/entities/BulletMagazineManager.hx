@@ -1,5 +1,6 @@
 package entities;
 
+import entities.physicsgroups.BulletsPhysicsGroup;
 import flixel.FlxSprite;
 import flixel.FlxG;
 import flixel.util.FlxColor;
@@ -18,7 +19,11 @@ class BulletMagazineManager {
 		magazines.push(magazine);
 	}
 
-	public function attemptReload():Bool {
+	public function attemptReload(bulletGroup:BulletsPhysicsGroup):Bool {
+		if (bulletGroup.bulletsAlive()) {
+			return false;
+		}
+
 		var count:Int = 0;
 		for (i in 0...magazines.length) {
 			count = magazines[i].count();

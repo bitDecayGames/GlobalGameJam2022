@@ -108,7 +108,7 @@ class PlayState extends FlxTransitionableState {
 
 	private function queueEndCheck() {
 		Timer.delay(() -> {
-			if (physics.bulletsAlive()) {
+			if (physics.bullets.bulletsAlive()) {
 				queueEndCheck();
 			} else {
 				trace('checking winner');
