@@ -26,7 +26,8 @@ class ParticlePlayState extends FlxTransitionableState
 	var _resetButton:FlxButton;
 	var _stopButton:FlxButton;
 	var _startButton:FlxButton;
-	var _arrowGroundButton:FlxButton;
+	var _ballHitsPlayerButton:FlxButton;
+	var _ballHitsGroundButton:FlxButton;
 
 	/**
 	 * Some walls stuff
@@ -56,8 +57,11 @@ class ParticlePlayState extends FlxTransitionableState
 		_startButton = new FlxButton(260, FlxG.height - 22, "Start", onStartRequest);
 		add(_startButton);
 
-		_arrowGroundButton = new FlxButton(340, FlxG.height - 22, "Arrow Ground", arrowHitsGround);
-		add(_arrowGroundButton);
+		_ballHitsPlayerButton = new FlxButton(340, FlxG.height - 22, "Ball Player", ballHitsPlayer);
+		add(_ballHitsPlayerButton);
+
+		_ballHitsGroundButton = new FlxButton(420, FlxG.height - 22, "Ball Ground", ballHitsGround);
+		add(_ballHitsGroundButton);
 
 		// Let's setup some walls for our particles to collide against
 
@@ -116,9 +120,19 @@ class ParticlePlayState extends FlxTransitionableState
 		_emitter.makeParticles(2, 2, FlxColor.WHITE, 200);
 	}
 
-	function arrowHitsGround():Void {
+	function ballHitsPlayer():Void {
 		_emitter.clear();
-		_emitter.makeParticles(2, 2, FlxColor.BROWN, 200);
+		_emitter.makeParticles(2, 2, FlxColor.GREEN, 200);
+		_emitter.launchMode = FlxEmitterMode.SQUARE;
+		_emitter.velocity.set(-20,-20,20,20,-20,-20,20,20);
+		_emitter.alpha.set(0.9, 1, 0, 0);
+		_emitter.lifespan.set(0.5, 1.5);
+		_emitter.start(true, 0.1, 30);
+	}
+
+	function ballHitsGround():Void {
+		_emitter.clear();
+		_emitter.makeParticles(2, 2, FlxColor.GREEN, 200);
 		_emitter.launchMode = FlxEmitterMode.SQUARE;
 		_emitter.velocity.set(-10,-10,10,10,-10,-10,10,10);
 		_emitter.alpha.set(0.9, 1, 0, 0);

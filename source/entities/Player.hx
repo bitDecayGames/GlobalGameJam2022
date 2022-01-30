@@ -30,6 +30,12 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 	public static final GROUND_ELEVATION:Float = 70;
 	// set this to -1 for infinite ammo
 	private static final MAX_AMMO:Int = 5;
+	private static final SCALE:Float = 0.3;
+	private static final ARM_OFFSET:Float = 20;
+
+	public var canShoot:Bool = false;
+
+	var hasNotTriedToShoot:Bool = true;
 
 	var speed:Float = 30;
 
@@ -42,6 +48,7 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 	private var powerMeter:PowerMeter;
 
 	public var body:FlxSprite;
+	public var arm:FlxSprite;
 
 	private var bulletPhysicsGroup:Null<BulletsPhysicsGroup>;
 
@@ -51,8 +58,19 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 		super(x, y);
 		this.bulletPhysicsGroup = bulletPhysicsGroup;
 		body = new PlayerBodySprite(this);
-		body.makeGraphic(wid, hig, FlxColor.MAGENTA);
+		body.loadGraphic(AssetPaths.test_player__png);
+		body.antialiasing = true;
+		body.scale.scale(SCALE);
 		add(body);
+
+		arm = new FlxSprite();
+		arm.loadGraphic(AssetPaths.arm__png);
+		arm.offset.set(arm.width * .5, arm.height - ARM_OFFSET);
+		arm.origin.set(arm.width * .5, arm.height - ARM_OFFSET);
+		arm.antialiasing = true;
+		arm.scale.scale(SCALE);
+		add(arm);
+
 		this.playerNum = playerNum;
 
 		angleInd = new AngleIndicator(0, -ANGLE_RADIUS, ANGLE_RADIUS);
@@ -77,11 +95,13 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 
 		// set up color shifting shader based on playerNum
 		var shader = new ColorShifterShader([
-			5 => FlxColor.PURPLE,
-			8 => FlxColor.PURPLE,
-			44 => FlxColor.MAGENTA,
-			33 => FlxColor.PINK,
-			100 => FlxColor.PURPLE,
+			// 148 => FlxColor.BLUE,
+			// 162 => FlxColor.BLUE,
+			// 170 => FlxColor.BLUE,
+			// 198 => FlxColor.BLUE,
+			// 240 => FlxColor.BLUE,
+			// 249 => FlxColor.BLUE,
+			// 227 => FlxColor.BLUE,
 		]);
 		body.shader = shader;
 
@@ -92,14 +112,18 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 	override public function update(delta:Float) {
 		super.update(delta);
 
-		if (SimpleController.just_pressed(Button.A, playerNum) && magazine.count() > 0) {
-			powerMeter.power = 0;
-			powerMeter.visible = true;
-		} else if (SimpleController.pressed(Button.A, playerNum) && powerMeter.visible) {
-			powerMeter.buildUpMorePower(delta * 2);
-		} else if (SimpleController.just_released(Button.A, playerNum) && powerMeter.visible) {
-			powerMeter.visible = false;
-			shoot();
+		if (canShoot) {
+			if ((hasNotTriedToShoot && SimpleController.pressed(Button.A, playerNum))
+				|| (SimpleController.just_pressed(Button.A, playerNum) && magazine.count() > 0)) {
+				hasNotTriedToShoot = false;
+				powerMeter.power = 0;
+				powerMeter.visible = true;
+			} else if (SimpleController.pressed(Button.A, playerNum) && powerMeter.visible) {
+				powerMeter.buildUpMorePower(delta * 2);
+			} else if (SimpleController.just_released(Button.A, playerNum) && powerMeter.visible) {
+				powerMeter.visible = false;
+				shoot();
+			}
 		}
 
 		// TODO: KEYBOARD CONTROLS START HERE
@@ -121,6 +145,8 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 		}
 
 		BulletMagazineManager.instance.attemptReload();
+
+		arm.angle = angleInd.angle;
 	}
 
 	public function shoot() {
@@ -130,7 +156,7 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 
 			// need the 90 degree diff because of differences in "up" from Flx to Echo.
 			var tipOfGun = FlxPointExt.pointOnCircumference(FlxPoint.get(x, y), angleInd.angle - 90, ANGLE_RADIUS);
-			var bullet = new SlimeBullet(tipOfGun.x, tipOfGun.y,
+			var bullet = new SlimeBullet(tipOfGun.x - Bullet.BULLET_RADIUS, tipOfGun.y - Bullet.BULLET_RADIUS,
 				FlxVector.get(0, -1).rotateByDegrees(angleInd.angle).scale(MIN_SHOOT_POWER + powerMeter.power * POWER_SCALE));
 			FlxG.state.add(bullet);
 			if (bulletPhysicsGroup != null) {
@@ -156,5 +182,9 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 		super.kill();
 		// remove echo physics body from the world here
 		body.get_body().active = false;
+	}
+
+	public function dead() {
+		return !body.get_body().active;
 	}
 }
