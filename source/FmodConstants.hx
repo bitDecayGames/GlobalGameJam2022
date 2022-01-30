@@ -17,5 +17,7 @@ class FmodSFX {
     public static inline var MenuHover:String = "event:/SFX/Menu/MenuHover";
     public static inline var MenuSelect:String = "event:/SFX/Menu/MenuSelect";
     public static inline var PlayerDie:String = "event:/SFX/Player/PlayerDie";
+    public static inline var PlayerReload:String = "event:/SFX/Player/PlayerReload";
     public static inline var PlayerShoot:String = "event:/SFX/Player/PlayerShoot";
+    public static inline var PlayerShootEmpty:String = "event:/SFX/Player/PlayerShootEmpty";
 }
