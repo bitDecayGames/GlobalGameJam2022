@@ -1,5 +1,6 @@
 package entities.physicsgroups;
 
+import flixel.group.FlxSpriteGroup;
 import flixel.group.FlxGroup;
 
 using echo.FlxEcho;
