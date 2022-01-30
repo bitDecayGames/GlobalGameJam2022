@@ -211,6 +211,8 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 		body.animation.play(DYING);
 		isDead = true;
 		canShoot = false;
+		// angleInd.visible = false;
+		powerMeter.visible = false;
 	}
 
 	override function kill() {
