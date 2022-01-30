@@ -12,12 +12,17 @@ class Bullet extends FlxSprite {
 	public static final BULLET_RADIUS:Int = 10;
 
 	public var isLethal:Bool = true;
-    var maxBounces = 1;
-    var remainingBounces = 1;
+
+	var maxBounces = 1;
+	var remainingBounces = 1;
 
 	public function new(x:Float, y:Float, vel:FlxPoint) {
 		super(x, y);
-		makeGraphic(BULLET_RADIUS * 2, BULLET_RADIUS * 2, FlxColor.RED);
+		// makeGraphic(BULLET_RADIUS * 2, BULLET_RADIUS * 2, FlxColor.RED);
+		loadGraphic(AssetPaths.slimeball__png, true, 80, 80);
+		animation.add("squish", [0, 1, 2, 3, 4, 5, 6, 7], 10);
+		animation.play("squish");
+		scale.scale((BULLET_RADIUS * 2.0) / width);
 
 		this.add_body({
 			x: x + BULLET_RADIUS,
