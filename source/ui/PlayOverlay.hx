@@ -1,18 +1,16 @@
 package ui;
 
-import haxe.Timer;
 import flixel.ui.FlxButton;
 import flixel.text.FlxText;
 import entities.Player;
 import flixel.util.FlxAxes;
 import flixel.FlxG;
 import entities.GameData;
-import flixel.util.FlxColor;
 import flixel.FlxSprite;
 import flixel.FlxSubState;
 
 class PlayOverlay extends FlxSubState {
-    var data:GameData;
+    public var data:GameData;
 
     var startup:FlxSprite;
     var p1Score:FlxText;
@@ -170,6 +168,9 @@ class PlayOverlay extends FlxSubState {
         winner.animation.play("win");
         winner.screenCenter(FlxAxes.XY);
         add(winner);
+
+        p1Score.text = "" + GameData.p1Points;
+        p2Score.text = "" + GameData.p2Points;
     }
 
     public function tieGame() {

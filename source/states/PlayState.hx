@@ -59,8 +59,9 @@ class PlayState extends FlxTransitionableState {
 		FlxG.camera.pixelPerfectRender = true;
 
 		var bg = new FlxSprite(AssetPaths.moonscape__png);
-		bg.width = FlxG.width;
-		bg.height = FlxG.height;
+		bg.scale.x = FlxG.width / bg.width;
+		bg.scale.y = FlxG.height / bg.height;
+		bg.screenCenter();
 		add(bg);
 
 		var floorImage = new FlxSprite(AssetPaths.floor__png);
@@ -151,13 +152,14 @@ class PlayState extends FlxTransitionableState {
 	private function declareWinner(player:Player) {
 		camera.follow(player);
 		camera.targetOffset.set(-player.width / 2, -player.height * 1.5);
-		overlay.declareWinner(player);
-
+		
 		if (player.playerNum == 0){
 			GameData.p1Points++;
 		} else if (player.playerNum == 1){
 			GameData.p2Points++;
 		}
+
+		overlay.declareWinner(player);
 	}
 
 	override public function onFocusLost() {
