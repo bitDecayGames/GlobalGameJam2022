@@ -53,12 +53,7 @@ class PlayOverlay extends FlxSubState {
         p2Score.y = 20;
         add(p2Score);
 
-        for (i in 0...data.maxAmmo) {
-            var spriteSpacingX = 25;
-            var spriteDistanceFromTop = 20;
-            p1Ammo.push(CreateBulletSprite(50 + spriteSpacingX * (i+1), spriteDistanceFromTop));
-            p2Ammo.push(CreateBulletSprite((FlxG.width - 100) - (spriteSpacingX * i+1), spriteDistanceFromTop));
-        }
+        reload();
 
         startup = new FlxSprite();
 		startup.loadGraphic(AssetPaths.readysetgo__png, true, 200, 200);
@@ -101,6 +96,15 @@ class PlayOverlay extends FlxSubState {
             if (ammoSprite != null){
                 ammoSprite.destroy();
             }
+        }
+    }
+
+    public function reload() {
+        for (i in 0...data.maxAmmo) {
+            var spriteSpacingX = 25;
+            var spriteDistanceFromTop = 20;
+            p1Ammo.push(CreateBulletSprite(50 + spriteSpacingX * (i+1), spriteDistanceFromTop));
+            p2Ammo.push(CreateBulletSprite((FlxG.width - 100) - (spriteSpacingX * i+1), spriteDistanceFromTop));
         }
     }
 
