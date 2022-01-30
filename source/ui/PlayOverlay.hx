@@ -47,11 +47,15 @@ class PlayOverlay extends FlxSubState {
 		startup.loadGraphic(AssetPaths.readysetgo__png, true, 200, 200);
 		startup.animation.add("countdown", [0, 1, 2, 0], 1);
         startup.animation.play("countdown");
+
+
+        // Do this effect up front as the first frame doesn't seem to trigger it correctly
+        FmodManager.PlaySoundOneShot(FmodSFX.AnnouncerReady);
         startup.animation.callback = (name:String, frameNum:Int, frameIndex:Int) -> {
             trace('name: ${name}, frame number: ${frameNum}, frame index: ${frameIndex}');
-            if (name == "countdown" && frameNum == 0) {
-                FmodManager.PlaySoundOneShot(FmodSFX.AnnouncerReady);
-            }
+            // if (name == "countdown" && frameNum == 0) {
+            //     FmodManager.PlaySoundOneShot(FmodSFX.AnnouncerReady);
+            // }
             if (name == "countdown" && frameNum == 1) {
                 FmodManager.PlaySoundOneShot(FmodSFX.AnnouncerSet);
             }
