@@ -56,6 +56,8 @@ class PlayState extends FlxTransitionableState {
 		bgColor = FlxColor.GRAY;
 		Lifecycle.startup.dispatch();
 
+		FmodManager.PlaySong(FmodSongs.Slime);
+
 		// Initialize  FlxEcho
 		FlxEcho.init({width: FlxG.width, height: FlxG.height, gravity_y: PlayState.gravity});
 

@@ -3,7 +3,7 @@ package entities;
 class GameData {
     public static var maxAmmo = 5;
 
-    public static var gameMode = "";
+    public static var gameMode = "random";
     public static var currentRound:CurrentRound;
 
     public static var p1Points:Int = 0;
