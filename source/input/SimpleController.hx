@@ -125,13 +125,8 @@ class SimpleController {
 			}
 
 			if(!foundBinding){
-				trace('Binding not found for pad with id ${pad.id}. Binding to player ${player}');
+				pad.deadZone = 0.0000001;
 				bound_pads.set(player, pad);
-
-
-				trace("Printing bound pads: ");
-				trace(bound_pads);
-
 				break;
 			}
 		}

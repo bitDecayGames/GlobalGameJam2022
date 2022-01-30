@@ -1,5 +1,6 @@
 package states;
 
+import input.SimpleController;
 import entities.GameData;
 import entities.Floor;
 import entities.Wall;
@@ -63,7 +64,7 @@ class PlayState extends FlxTransitionableState {
 			openSubState(new PlayOverlay(gameData, ()->{}));
 		}
 
-		if (FlxG.keys.justPressed.SPACE){
+		if (FlxG.keys.justPressed.SPACE || SimpleController.just_pressed(Button.B, 0)){
 			FlxG.resetGame();
 		}
 	}
