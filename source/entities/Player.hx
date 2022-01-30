@@ -34,6 +34,8 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 	private static final SCALE:Float = 0.3;
 	private static final ARM_OFFSET:Float = 20;
 
+	public var screenshakeIntensityDenominator:Int = 150;
+
 	public var canShoot:Bool = false;
 
 	var hasNotTriedToShoot:Bool = true;
@@ -183,7 +185,7 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 				bulletPhysicsGroup.addBullet(bullet);
 			}
 
-			FlxG.camera.shake(powerMeter.power / 85, powerMeter.power / 3);
+			FlxG.camera.shake(powerMeter.power / screenshakeIntensityDenominator, powerMeter.power / 3);
 		}
 	}
 
