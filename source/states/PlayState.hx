@@ -1,5 +1,7 @@
 package states;
 
+import entities.CameraManager;
+import flixel.addons.display.FlxZoomCamera;
 import entities.Floor;
 import entities.Wall;
 import entities.physicsgroups.PhysicsCollisions;
@@ -23,11 +25,13 @@ class PlayState extends FlxTransitionableState {
 	var player:FlxSprite;
 
 	var world:World;
+	var cameraManager:CameraManager;
 
 	public static inline var gravity = 98;
 
 	override public function create() {
 		super.create();
+
 		Lifecycle.startup.dispatch();
 
 		// Initialize  FlxEcho
@@ -36,17 +40,25 @@ class PlayState extends FlxTransitionableState {
 		// this is required for collisions to work
 		var physics = new PhysicsCollisions();
 
-		FlxG.camera.pixelPerfectRender = true;
+		var zoomCamera = new FlxZoomCamera(0, 0, FlxG.width, FlxG.height, 0);
+		zoomCamera.zoomSpeed = 0; // 0.75;
+		zoomCamera.targetZoom = 0; //1.1;
+		zoomCamera.pixelPerfectRender = true;
+		FlxG.cameras.reset(zoomCamera);
+
 		var wall = new Wall(FlxG.width * .5, 0).buildWallBlocks(10, 3);
 		add(wall);
+
+		var center = new FlxObject(0, 0, 1, 1);
+		cameraManager = new CameraManager(zoomCamera, center);
 
 		var floor = new Floor();
 		add(floor);
 
-		var player1 = new Player(100, floor.y - 100, 0, physics.bullets);
+		var player1 = new Player(100, floor.y - 100, 0, physics.bullets, cameraManager);
 		add(player1);
 
-		var player2 = new Player(FlxG.width - 100, floor.y - 100, 1, physics.bullets);
+		var player2 = new Player(FlxG.width - 100, floor.y - 100, 1, physics.bullets, cameraManager);
 		add(player2);
 
 		// this is also required for collisions to work
@@ -55,6 +67,7 @@ class PlayState extends FlxTransitionableState {
 
 	override public function update(elapsed:Float) {
 		super.update(elapsed);
+		cameraManager.update();
 	}
 
 	override public function onFocusLost() {

@@ -1,5 +1,6 @@
 package entities;
 
+import states.PlayState;
 import flixel.FlxState;
 import input.SimpleController;
 import input.InputCalcuator;
@@ -36,10 +37,12 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 	public var body:FlxSprite;
 
 	private var bulletPhysicsGroup:Null<BulletsPhysicsGroup>;
+	private var cameraManager:CameraManager;
 
-	public function new(x:Float, y:Float, playerNum:Int, bulletPhysicsGroup:Null<BulletsPhysicsGroup>) {
+	public function new(x:Float, y:Float, playerNum:Int, bulletPhysicsGroup:Null<BulletsPhysicsGroup>, cameraManager:CameraManager) {
 		super(x, y);
 		this.bulletPhysicsGroup = bulletPhysicsGroup;
+		this.cameraManager = cameraManager;
 		body = new PlayerBodySprite(this);
 		body.makeGraphic(wid, hig, FlxColor.GREEN);
 		add(body);
@@ -101,7 +104,6 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 		if (bulletPhysicsGroup != null) {
 			bulletPhysicsGroup.addBullet(bullet);
 		}
-
 		FlxG.camera.shake(powerMeter.power / 85, powerMeter.power / 3);
 	}
 
@@ -109,8 +111,11 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 		// for now just delete the player and whatever it was hit by
 		// later we can add fancy animations, screams of terror,
 		// explosions, etc.
+		this.cameraManager.zoomTo(this);
 		hitBy.kill();
 		this.kill();
+	
+
 	}
 
 	override function kill() {

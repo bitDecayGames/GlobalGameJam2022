@@ -40,7 +40,9 @@ class TristanState extends FlxTransitionableState {
 		var rnd = new FlxRandom();
 		var wall = new Wall(100, 0).buildWallBlocks(10, rnd.int(1, 3));
 		var floor = new Floor();
-		var player = new Player(50, floor.y - 100, 0, null);
+
+		// this is broken now, but I don't think it matters, no one is using this file. To fix, and a CameraManager
+		var player = new Player(50, floor.y - 100, 0, null, null);
 		add(floor);
 		add(wall);
 		add(bullet);
