@@ -11,7 +11,7 @@ class BulletMagazineManager {
 	private var magazines:Array<BulletMagazine>;
 
 	public function new() {
-		magazines = [];
+		reset();
 	}
 
 	public function add(magazine:BulletMagazine) {
@@ -23,15 +23,16 @@ class BulletMagazineManager {
 		for (i in 0...magazines.length) {
 			count = magazines[i].count();
 			if (count > 0 || count < 0) {
-				trace('Still has count: ${count}');
 				return false;
 			}
 		}
-		trace("start reload");
 		for (i in 0...magazines.length) {
-			trace('reload ${i}');
 			magazines[i].reload();
 		}
 		return true;
+	}
+
+	public function reset() {
+		magazines = [];
 	}
 }
