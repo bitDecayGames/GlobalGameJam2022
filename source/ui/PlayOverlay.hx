@@ -1,5 +1,6 @@
 package ui;
 
+import flixel.ui.FlxButton;
 import flixel.text.FlxText;
 import entities.Player;
 import flixel.util.FlxAxes;
@@ -18,6 +19,14 @@ class PlayOverlay extends FlxSubState {
     var p2Score:FlxText;
     var p2Ammo:Array<FlxSprite> = new Array<FlxSprite>();
 
+    var currentRoundText:FlxText;
+
+
+	var varietyButton:FlxButton;
+	var ammoButton:FlxButton;
+	var windmillButton:FlxButton;
+	var rapidModeButton:FlxButton;
+
     var gameStarted:Bool = false;
 
     var callback:Void->Void;
@@ -34,12 +43,45 @@ class PlayOverlay extends FlxSubState {
 		bulletSprite.scale.scale((15 * 2.0) / bulletSprite.width);
         bulletSprite.x = x;
         bulletSprite.y = y;
-        add(bulletSprite);
+        
+        if (!GameData.currentRound.unlimitedAmmo) {
+            add(bulletSprite);
+        }
+        
         return bulletSprite;
+    }
+
+    function varietyMode(){
+        GameData.gameMode = "variety";
+        FlxG.resetGame();
+    }
+
+    function ammoMode(){
+        GameData.gameMode = "ammo";
+        FlxG.resetGame();
+    }
+
+    function windmillMode(){
+        GameData.gameMode = "windmill";
+        FlxG.resetGame();
+    }
+
+    function rapidMode(){
+        GameData.gameMode = "rapid";
+        FlxG.resetGame();
     }
 
     override function create() {
         super.create();
+
+        varietyButton = new FlxButton(FlxG.width/2 - 160, 22, "Variety", varietyMode);
+		add(varietyButton);
+        ammoButton = new FlxButton(FlxG.width/2 - 80, 22, "Ammo", ammoMode);
+		add(ammoButton);
+        windmillButton = new FlxButton(FlxG.width/2, 22, "Windmill", windmillMode);
+		add(windmillButton);
+        rapidModeButton = new FlxButton(FlxG.width/2 + 80, 22, "Rapid", rapidMode);
+		add(rapidModeButton);
 
         p1Score = new FlxText();
         p1Score.size = 45;
@@ -57,6 +99,13 @@ class PlayOverlay extends FlxSubState {
         add(p2Score);
 
         reload();
+
+        currentRoundText = new FlxText();
+        currentRoundText.size = 30;
+        currentRoundText.text = GameData.currentRound.displayText;
+        currentRoundText.x = FlxG.width/2 - currentRoundText.width/2;
+        currentRoundText.y = 45;
+        add(currentRoundText);
 
         startup = new FlxSprite();
 		startup.loadGraphic(AssetPaths.readysetgo__png, true, 200, 200);

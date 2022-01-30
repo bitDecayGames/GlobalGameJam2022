@@ -34,6 +34,10 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 	private static final SCALE:Float = 0.3;
 	private static final ARM_OFFSET:Float = 20;
 
+	public var gameMode:String = "";
+	public var normalControls:Bool = false;
+	public var windmillSpeed:Int = 6;
+
 	public var screenshakeIntensityDenominator:Int = 150;
 
 	public var canShoot:Bool = false;
@@ -123,7 +127,7 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 
 		if (canShoot) {
 			if ((hasNotTriedToShoot && SimpleController.pressed(Button.A, playerNum))
-				|| (SimpleController.just_pressed(Button.A, playerNum) && magazine.count() > 0)) {
+				|| (SimpleController.just_pressed(Button.A, playerNum) && (magazine.count() > 0 || GameData.currentRound.unlimitedAmmo))) {
 				hasNotTriedToShoot = false;
 				powerMeter.power = 0;
 				powerMeter.visible = true;
@@ -137,23 +141,31 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 			}
 		}
 
-		// TODO: KEYBOARD CONTROLS START HERE
-		if (SimpleController.pressed(Button.UP, playerNum)) {
-			angleInd.angle += CHANGE_ANGLE_SPEED;
-		} else if (SimpleController.pressed(Button.DOWN, playerNum)) {
-			angleInd.angle -= CHANGE_ANGLE_SPEED;
-		}
-		// KEYBOARD CONTROLS END HERE
-
-		var stick = SimpleController.getLeftStick(playerNum);
-		if (stick != null && stick.length > 0.2) {
-			stick.normalize();
-			// TODO: MW might want to add some lerp to this so that the angle isn't so jittery from your finger?
-
-			// the + 90 is here because stick.degrees is relative to the horizontal axis, but we need it relative to the vertical
-			// axis to match up with the fact that 0 degress equals up
-			angleInd.angle = stick.degrees + 90;
-		}
+		if (GameData.currentRound.spinningArms) {
+			if (playerNum == 0){
+				angleInd.angle = (angleInd.angle - windmillSpeed) % 360;
+			} else {
+				angleInd.angle = (angleInd.angle + windmillSpeed) % 360;
+			}
+		} else {
+			// TODO: KEYBOARD CONTROLS START HERE
+			if (SimpleController.pressed(Button.UP, playerNum)) {
+				angleInd.angle += CHANGE_ANGLE_SPEED;
+			} else if (SimpleController.pressed(Button.DOWN, playerNum)) {
+				angleInd.angle -= CHANGE_ANGLE_SPEED;
+			}
+			// KEYBOARD CONTROLS END HERE
+	
+			var stick = SimpleController.getLeftStick(playerNum);
+			if (stick != null && stick.length > 0.2) {
+				stick.normalize();
+				// TODO: MW might want to add some lerp to this so that the angle isn't so jittery from your finger?
+	
+				// the + 90 is here because stick.degrees is relative to the horizontal axis, but we need it relative to the vertical
+				// axis to match up with the fact that 0 degress equals up
+				angleInd.angle = stick.degrees + 90;
+			}
+		} 
 
 		var reloadSuccessful = BulletMagazineManager.instance.attemptReload(bulletPhysicsGroup);
 		if (reloadSuccessful) {
@@ -168,7 +180,7 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 	}
 
 	public function shoot() {
-		if (magazine.shoot()) {
+		if (magazine.shoot() || GameData.currentRound.unlimitedAmmo) {
 			trace('count: ${magazine.count()}');
 			FmodManager.PlaySoundOneShot(FmodSFX.PlayerShoot);
 

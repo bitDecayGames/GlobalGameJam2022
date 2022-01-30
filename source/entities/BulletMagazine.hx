@@ -20,7 +20,9 @@ class BulletMagazine {
 		} else if (_curBullets < 0) {
 			return true;
 		}
-		_curBullets--;
+		if (!GameData.currentRound.unlimitedAmmo){
+			_curBullets--;
+		}
 		return true;
 	}
 
