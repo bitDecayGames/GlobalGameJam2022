@@ -195,6 +195,7 @@ class PlayOverlay extends FlxSubState {
         pointAward.screenCenter();
         currentRoundText.size = 30;
         pointAward.visible = true;
+        FmodManager.PlaySoundOneShot(FmodSFX.ScorePoint);
 
         var target = FlxPoint.get();
         if (player.playerNum == 0) {
@@ -209,10 +210,10 @@ class PlayOverlay extends FlxSubState {
             y: target.y,
             size: 30,
         }, 1, { ease: FlxEase.sineOut, onComplete: (t) -> {
-            FmodManager.PlaySoundOneShot(FmodSFX.AnnouncerGo);
             pointAward.visible = false;
             p1Score.text = "" + GameData.p1Points;
             p2Score.text = "" + GameData.p2Points;
+            FmodManager.PlaySoundOneShot(FmodSFX.ScoreAddSimple);
 
             Timer.delay(() -> {
                 // TODO: Check if we have ultimate victory here to go to the final victory screen
