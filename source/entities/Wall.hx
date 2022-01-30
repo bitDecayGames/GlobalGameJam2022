@@ -7,7 +7,7 @@ import flixel.util.FlxColor;
 import flixel.FlxSprite;
 
 class Wall extends FlxTypedSpriteGroup<WallBlock> {
-	private static final HEIGHT:Int = 10;
+	private static final HEIGHT:Int = 15;
 	private static final HOLES:Int = 3;
 	private static final BIAS:Float = 5.0;
 
