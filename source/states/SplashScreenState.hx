@@ -31,8 +31,7 @@ class SplashScreenState extends FlxState {
 		
 		// List splash screen image paths here
 		loadSplashImages([
-			new SplashImage(AssetPaths.bitdecaygamesinverted__png),
-			new SplashImage(AssetPaths.ld_logo__png)
+			new SplashImage(AssetPaths.bitdecaygamesinverted__png)
 		]);
 
 		timer = splashDuration;
