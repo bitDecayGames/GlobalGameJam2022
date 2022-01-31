@@ -8,8 +8,8 @@ import flixel.FlxSprite;
 
 class WallBlock extends FlxSprite {
 	public static final WALL_SPRITE_SIZE = 120;
-	public static final WALL_HEIGHT:Int = 40;
-	public static final WALL_SCALE:Float = .333;
+	public static final WALL_HEIGHT:Int = 120;
+	public static final WALL_SCALE:Float = 1.0;
 
 	var stamper:FlxSprite;
 	var stampQueued = false;

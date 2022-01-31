@@ -26,14 +26,14 @@ using echo.FlxEcho;
 
 class Player extends FlxTypedSpriteGroup<FlxSprite> {
 	private static final CHANGE_ANGLE_SPEED:Float = 1.0;
-	private static final POWER_SCALE:Float = 300;
-	private static final MIN_SHOOT_POWER:Float = 75;
-	private static final ANGLE_RADIUS:Float = 80;
-	public static final GROUND_ELEVATION:Float = 70;
+	private static final POWER_SCALE:Float = 500;
+	private static final MIN_SHOOT_POWER:Float = 150;
+	private static final ANGLE_RADIUS_RATIO:Float = 0.55;
+	public static final GROUND_ELEVATION:Float = 200;
 	// set this to -1 for infinite ammo
 	private static final MAX_AMMO:Int = 5;
-	private static final SCALE:Float = 0.3;
-	private static final ARM_OFFSET:Float = 20;
+	private static final SCALE:Float = 1.0;
+	private static final ARM_OFFSET_RATIO:Float = .05;
 
 	public var gameMode:String = "";
 	public var normalControls:Bool = false;
@@ -48,9 +48,6 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 	var speed:Float = 30;
 
 	public var playerNum:Int;
-
-	var wid = 50;
-	var hig = 100;
 
 	private var angleInd:AngleIndicator;
 	private var powerMeter:PowerMeter;
@@ -84,15 +81,15 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 
 		arm = new FlxSprite();
 		arm.loadGraphic(AssetPaths.arm__png);
-		arm.offset.set(arm.width * .5, arm.height - ARM_OFFSET);
-		arm.origin.set(arm.width * .5, arm.height - ARM_OFFSET);
+		arm.offset.set(arm.width * .5, arm.height - (ARM_OFFSET_RATIO * height));
+		arm.origin.set(arm.width * .5, arm.height - (ARM_OFFSET_RATIO * height));
 		arm.antialiasing = true;
 		arm.scale.scale(SCALE);
 		add(arm);
 
 		this.playerNum = playerNum;
 
-		angleInd = new AngleIndicator(0, -ANGLE_RADIUS, ANGLE_RADIUS);
+		angleInd = new AngleIndicator(0, -ANGLE_RADIUS_RATIO * height, ANGLE_RADIUS_RATIO * height);
 		add(angleInd);
 		if (playerNum == 0) {
 			angleInd.angle = 90;
@@ -101,7 +98,7 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 		}
 
 		// MW notice the .25 instead of .5 here... no fucking idea...
-		powerMeter = new PowerMeter(-PowerMeter.LENGTH * .25, -hig * .5);
+		powerMeter = new PowerMeter(-PowerMeter.LENGTH * .25, -height * .25);
 		powerMeter.visible = false;
 		add(powerMeter);
 		powerMeter.saveAnchor();
@@ -112,8 +109,8 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 			y: y,
 			shape: {
 				type: RECT,
-				width: wid,
-				height: hig,
+				width: width * .5,
+				height: height * .6,
 			}
 		});
 
@@ -216,9 +213,12 @@ class Player extends FlxTypedSpriteGroup<FlxSprite> {
 			}
 
 			// need the 90 degree diff because of differences in "up" from Flx to Echo.
-			var tipOfGun = FlxPointExt.pointOnCircumference(FlxPoint.get(x, y), angleInd.angle - 90, ANGLE_RADIUS);
-			var bullet = new SlimeBullet(tipOfGun.x - Bullet.BULLET_RADIUS * 3, tipOfGun.y - Bullet.BULLET_RADIUS * 3,
+			var tipOfGun = FlxPointExt.pointOnCircumference(FlxPoint.get(x, y), angleInd.angle - 90, ANGLE_RADIUS_RATIO * height);
+			var bullet = new SlimeBullet(tipOfGun.x, tipOfGun.y,
 				FlxVector.get(0, -1).rotateByDegrees(angleInd.angle).scale(MIN_SHOOT_POWER + powerMeter.power * POWER_SCALE), playerNum, slimeStamp);
+			bullet.x -= bullet.width * .5;
+			bullet.y -= bullet.height * .5;
+			bullet.addPhysicsBody();
 			FlxG.state.add(bullet);
 			if (bulletPhysicsGroup != null) {
 				bulletPhysicsGroup.addBullet(bullet);

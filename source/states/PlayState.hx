@@ -37,7 +37,6 @@ class PlayState extends FlxTransitionableState {
 
 	var physics:PhysicsCollisions;
 
-
 	var roundEndStart:Bool = false;
 	var timeSinceRoundEnded:Float = 0;
 	var maxRoundEndTime:Float = 8;
@@ -48,7 +47,7 @@ class PlayState extends FlxTransitionableState {
 
 	var floor:FlxSprite;
 
-	public static inline var gravity = 98;
+	public static inline var gravity = 150;
 
 	override public function create() {
 		super.create();
@@ -101,7 +100,7 @@ class PlayState extends FlxTransitionableState {
 
 	override public function update(elapsed:Float) {
 		super.update(elapsed);
-		timeOnState+=elapsed;
+		timeOnState += elapsed;
 		if (subState == null) {
 			overlay = new PlayOverlay(() -> {
 				player1.canShoot = true;
@@ -123,7 +122,7 @@ class PlayState extends FlxTransitionableState {
 			roundEndStart = true;
 		}
 
-		if (roundEndStart){
+		if (roundEndStart) {
 			timeSinceRoundEnded += elapsed;
 		}
 
@@ -157,8 +156,8 @@ class PlayState extends FlxTransitionableState {
 		if (player1.dead() && player2.dead()) {
 			trace('TIE GAME!');
 			Timer.delay(() -> {
-                FlxG.resetState();
-            }, 1500);
+				FlxG.resetState();
+			}, 1500);
 		} else if (player1.dead()) {
 			trace("PLAYER 2 WINS!");
 			declareWinner(player2);
@@ -171,9 +170,9 @@ class PlayState extends FlxTransitionableState {
 	}
 
 	private function declareWinner(player:Player) {
-		if (player.playerNum == 0){
+		if (player.playerNum == 0) {
 			GameData.p1Points++;
-		} else if (player.playerNum == 1){
+		} else if (player.playerNum == 1) {
 			GameData.p2Points++;
 		}
 

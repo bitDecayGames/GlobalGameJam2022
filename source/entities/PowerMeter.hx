@@ -8,9 +8,9 @@ import flixel.util.FlxColor;
 import flixel.FlxSprite;
 
 class PowerMeter extends FlxTypedSpriteGroup<FlxSprite> {
-	public static final THICKNESS:Float = 20;
-	public static final LENGTH:Float = 60;
-	private static final RUMBLE_RADIUS:Float = 1.5;
+	public static final THICKNESS:Float = 80;
+	public static final LENGTH:Float = 180;
+	private static final RUMBLE_RADIUS:Float = 8;
 
 	private var _shell:PowerMeterFrame;
 	private var _power:PowerMeterPower;

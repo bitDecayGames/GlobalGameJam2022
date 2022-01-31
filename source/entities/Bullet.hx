@@ -10,11 +10,12 @@ import flixel.util.FlxColor;
 using echo.FlxEcho;
 
 class Bullet extends FlxSprite {
-	public static final BULLET_RADIUS:Int = 15;
 	public static final MAX_SPIN_SPEED:Float = 200;
 	public static final MAX_BOUNCES = 1;
 
 	public var isLethal:Bool = true;
+
+	private var vel:FlxPoint;
 
 	var maxBounces = MAX_BOUNCES;
 	var remainingBounces = MAX_BOUNCES;
@@ -25,15 +26,19 @@ class Bullet extends FlxSprite {
 		loadGraphic(AssetPaths.slimeball__png, true, 80, 80);
 		animation.add("squish", [0, 1, 2, 3, 4, 5, 6, 7], 10);
 		animation.play("squish");
-		scale.scale((BULLET_RADIUS * 2.0) / width);
+		this.vel = vel;
+	}
+
+	public function addPhysicsBody() {
+		var radius = width * .5;
 
 		this.add_body({
-			x: x + BULLET_RADIUS * 3,
-			y: y + BULLET_RADIUS * 3,
+			x: x + radius,
+			y: y + radius,
 			elasticity: 0.95,
 			shape: {
 				type: CIRCLE,
-				radius: BULLET_RADIUS
+				radius: radius
 			},
 			velocity_x: vel.x,
 			velocity_y: vel.y,
